@@ -1,0 +1,8 @@
+.vercel
+node_modules
+.DS_Store
+*.log
+
+# Contenido Dreamhost (no va en el repo de Vercel)
+data/
+.htaccess

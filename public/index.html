@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LMD — Legacy Media Dashboard</title>
+  <style>
+    body {
+      background: #0a0a0a;
+      color: #00ff41;
+      font-family: "Courier New", Courier, monospace;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 { font-size: 1.2em; letter-spacing: 2px; border-bottom: 1px solid #00ff41; padding-bottom: 8px; }
+    .status { font-size: 0.85em; margin-top: 16px; }
+    .ok  { color: #00ff41; }
+    .err { color: #ff4141; }
+    pre  { font-size: 0.7em; overflow: auto; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h1>[ LMD // SISTEMA INICIANDO ]</h1>
+  <div class="status" id="status">Conectando con biblioteca...</div>
+  <pre id="output"></pre>
+
+  <script type="text/javascript">
+    // ES5 — compatible con Safari iOS 9.3.5
+    var statusEl = document.getElementById('status');
+    var outputEl = document.getElementById('output');
+
+    function fetchLibrary() {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', '/api/fetch-library', true);
+
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState !== 4) return;
+
+        if (xhr.status === 200) {
+          try {
+            var lib = JSON.parse(xhr.responseText);
+            var music  = lib.music  ? lib.music.length  : 0;
+            var books  = lib.books  ? lib.books.length  : 0;
+
+            statusEl.className = 'status ok';
+            statusEl.innerHTML = 'API OK &mdash; ' + music + ' pistas, ' + books + ' libros';
+            outputEl.textContent = JSON.stringify(lib, null, 2);
+          } catch (e) {
+            statusEl.className = 'status err';
+            statusEl.textContent = 'ERROR: respuesta JSON invalida';
+          }
+        } else {
+          statusEl.className = 'status err';
+          statusEl.textContent = 'ERROR ' + xhr.status + ': no se pudo conectar con la biblioteca';
+        }
+      };
+
+      xhr.onerror = function() {
+        statusEl.className = 'status err';
+        statusEl.textContent = 'ERROR: falla de red';
+      };
+
+      xhr.send();
+    }
+
+    fetchLibrary();
+  </script>
+</body>
+</html>
