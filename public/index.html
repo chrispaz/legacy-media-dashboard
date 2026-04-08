@@ -514,7 +514,10 @@ function renderBooks(books) {
           item.insertBefore(ph, wrap);
           item.removeChild(wrap);
         };
-        img.src = book.cover; // asignar src después de onerror
+        // Validar URL antes de asignar (descarta typos como hhtps://)
+        var coverUrl = (book.cover || '').replace(/^\s+/, '');
+        img.src = (coverUrl.indexOf('https://') === 0 || coverUrl.indexOf('http://') === 0)
+                  ? coverUrl : '';
         wrap.appendChild(img);
         item.appendChild(wrap);
       } else {
