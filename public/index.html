@@ -838,14 +838,19 @@ var EpubReader = {
       if (!opfFile) { throw new Error('OPF no encontrado'); }
       var opfXml  = opfFile.asText();
 
-      // Manifest: id → href
+      // Manifest: captura el tag <item> completo y extrae id y href
+      // independientemente del orden de atributos (href antes o después de id)
       var manifest = {};
-      var mReg = /<item[^>]+id="([^"]+)"[^>]+href="([^"]+)"[^>]*\/?>/g;
+      var mReg = /<item([^>]+)>/g;
       var mMatch;
       while ((mMatch = mReg.exec(opfXml)) !== null) {
-        // Normalizar href (quitar fragment #)
-        var href = mMatch[2].split('#')[0];
-        manifest[mMatch[1]] = href;
+        var attrs     = mMatch[1];
+        var idMatch   = attrs.match(/\bid="([^"]+)"/);
+        var hrefMatch = attrs.match(/\bhref="([^"]+)"/);
+        if (idMatch && hrefMatch) {
+          var href = hrefMatch[1].split('#')[0];
+          manifest[idMatch[1]] = href;
+        }
       }
 
       // Spine: orden de lectura
