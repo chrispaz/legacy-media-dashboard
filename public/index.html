@@ -6,6 +6,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <title>LMD</title>
+  <script type="text/javascript" src="/lib/jszip.min.js"></script>
   <style>
 
     /* ── RESET ───────────────────────────────── */
@@ -23,7 +24,6 @@
       background: #0a0a0a;
     }
 
-    /* ── TIPOGRAFÍA BASE ─────────────────────── */
     body {
       color: #00ff41;
       font-family: "Courier New", Courier, monospace;
@@ -45,75 +45,42 @@
       position: relative;
     }
 
-    #header-logo {
-      font-size: 1.05em;
-      letter-spacing: 5px;
-      font-weight: bold;
-    }
-
-    #header-status {
-      font-size: 0.68em;
-      color: #00cc33;
-      margin-left: 10px;
-      letter-spacing: 2px;
-    }
-
-    #header-clock {
-      position: absolute;
-      right: 14px;
-      top: 50%;
-      margin-top: -9px;
-      font-size: 0.78em;
-      letter-spacing: 2px;
-      color: #00aa22;
+    #header-logo   { font-size: 1.05em; letter-spacing: 5px; font-weight: bold; }
+    #header-status { font-size: 0.68em; color: #00cc33; margin-left: 10px; letter-spacing: 2px; }
+    #header-clock  {
+      position: absolute; right: 14px; top: 50%; margin-top: -9px;
+      font-size: 0.78em; letter-spacing: 2px; color: #00aa22;
     }
 
     /* ── NAV TABS ────────────────────────────── */
-    #lmd-nav {
-      background: #0a0a0a;
-      border-bottom: 1px solid #00ff41;
-    }
+    #lmd-nav { background: #0a0a0a; border-bottom: 1px solid #00ff41; }
 
     .tab-btn {
       display: inline-block;
       padding: 10px 22px;
       font-family: "Courier New", Courier, monospace;
-      font-size: 0.8em;
-      letter-spacing: 3px;
-      color: #00ff41;
-      background: transparent;
-      border: none;
-      border-right: 1px solid #003300;
-      cursor: pointer;
-      text-transform: uppercase;
-      outline: none;
-      -webkit-appearance: none;
-      min-height: 44px;
+      font-size: 0.8em; letter-spacing: 3px;
+      color: #00ff41; background: transparent;
+      border: none; border-right: 1px solid #003300;
+      cursor: pointer; text-transform: uppercase;
+      outline: none; -webkit-appearance: none; min-height: 44px;
     }
 
     .tab-btn.active {
-      background: #00ff41;
-      color: #0a0a0a;
-      font-weight: bold;
-      border-right-color: #00ff41;
+      background: #00ff41; color: #0a0a0a;
+      font-weight: bold; border-right-color: #00ff41;
     }
 
     /* ── SCROLL AREA ─────────────────────────── */
     #lmd-main {
-      position: absolute;
-      left: 0;
-      right: 0;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
+      position: absolute; left: 0; right: 0;
+      overflow-y: auto; -webkit-overflow-scrolling: touch;
     }
 
     /* ── LOADING ─────────────────────────────── */
     #loading-screen {
-      text-align: center;
-      padding: 60px 20px;
-      letter-spacing: 3px;
-      font-size: 0.85em;
-      color: #00aa22;
+      text-align: center; padding: 60px 20px;
+      letter-spacing: 3px; font-size: 0.85em; color: #00aa22;
     }
 
     .blink {
@@ -121,190 +88,255 @@
       animation: blink 1s step-end infinite;
     }
 
-    @-webkit-keyframes blink {
-      0%, 100% { opacity: 1; }
-      50%       { opacity: 0; }
-    }
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50%       { opacity: 0; }
-    }
+    @-webkit-keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    @keyframes           blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
     /* ── VIEWS ───────────────────────────────── */
     .view { display: none; }
     .view.active { display: block; }
 
-    /* ── SECTION LABEL ───────────────────────── */
     .section-label {
-      padding: 7px 14px;
-      font-size: 0.65em;
-      letter-spacing: 4px;
-      color: #005500;
-      border-bottom: 1px solid #001a00;
-      text-transform: uppercase;
+      padding: 7px 14px; font-size: 0.65em;
+      letter-spacing: 4px; color: #005500;
+      border-bottom: 1px solid #001a00; text-transform: uppercase;
     }
 
     /* ── MÚSICA: LISTA ───────────────────────── */
     .music-item {
-      display: block;
-      padding: 13px 14px;
+      display: block; padding: 13px 14px;
       border-bottom: 1px solid #001a00;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
+      cursor: pointer; position: relative; overflow: hidden;
     }
 
-    .music-item:active { background: #001500; }
-
+    .music-item:active  { background: #001500; }
     .music-item.selected {
-      background: #001a00;
-      border-left: 3px solid #00ff41;
+      background: #001a00; border-left: 3px solid #00ff41;
     }
+    .music-item.playing { border-left: 3px solid #00ff41; background: #001a00; }
 
     .music-num {
-      display: inline-block;
-      color: #005500;
-      font-size: 0.72em;
-      width: 26px;
-      text-align: right;
-      margin-right: 10px;
-      vertical-align: middle;
+      display: inline-block; color: #005500;
+      font-size: 0.72em; width: 26px;
+      text-align: right; margin-right: 10px; vertical-align: middle;
     }
 
     .music-title {
-      display: inline-block;
-      font-size: 0.88em;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      vertical-align: middle;
+      display: inline-block; font-size: 0.88em;
+      letter-spacing: 1px; text-transform: uppercase; vertical-align: middle;
     }
 
     .music-meta {
-      font-size: 0.68em;
-      color: #00aa22;
-      margin-top: 4px;
-      padding-left: 36px;
-      letter-spacing: 1px;
+      font-size: 0.68em; color: #00aa22;
+      margin-top: 4px; padding-left: 36px; letter-spacing: 1px;
     }
 
     .music-duration {
-      position: absolute;
-      right: 14px;
-      top: 14px;
-      font-size: 0.72em;
-      color: #005500;
-      letter-spacing: 1px;
+      position: absolute; right: 14px; top: 14px;
+      font-size: 0.72em; color: #005500; letter-spacing: 1px;
     }
 
     /* ── LIBROS: GRID ────────────────────────── */
-    #books-list {
-      padding: 12px;
-    }
+    #books-list { padding: 12px; }
 
-    /* clearfix para float */
-    #books-list:after {
-      content: "";
-      display: table;
-      clear: both;
-    }
+    #books-list:after { content: ""; display: table; clear: both; }
 
     .book-item {
-      float: left;
-      width: 48%;
-      margin-right: 2%;
-      margin-bottom: 12px;
-      border: 1px solid #003300;
-      padding: 8px;
-      cursor: pointer;
+      float: left; width: 48%; margin-right: 2%;
+      margin-bottom: 12px; border: 1px solid #003300;
+      padding: 8px; cursor: pointer;
     }
 
-    /* cada 2 elementos, sin margen derecho */
-    .book-item:nth-child(2n) {
-      margin-right: 0;
-    }
-
-    .book-item:active  { background: #001500; }
-    .book-item.selected {
-      border-color: #00ff41;
-      background: #001a00;
-    }
+    .book-item:nth-child(2n) { margin-right: 0; }
+    .book-item:active    { background: #001500; }
+    .book-item.selected  { border-color: #00ff41; background: #001a00; }
 
     .book-cover-wrap {
-      width: 100%;
-      height: 130px;
-      background: #001100;
-      border: 1px solid #002200;
-      display: block;
-      text-align: center;
-      overflow: hidden;
-      margin-bottom: 7px;
+      width: 100%; height: 130px;
+      background: #001100; border: 1px solid #002200;
+      display: block; text-align: center; overflow: hidden; margin-bottom: 7px;
     }
 
     .book-cover-wrap img {
-      max-width: 100%;
-      max-height: 130px;
-      display: block;
-      margin: 0 auto;
+      max-width: 100%; max-height: 130px; display: block; margin: 0 auto;
     }
 
     .book-cover-placeholder {
-      width: 100%;
-      height: 130px;
-      background: #001100;
-      border: 1px solid #002200;
-      display: block;
-      text-align: center;
-      line-height: 130px;
-      font-size: 2.2em;
-      color: #003300;
-      margin-bottom: 7px;
+      width: 100%; height: 130px;
+      background: #001100; border: 1px solid #002200;
+      display: block; text-align: center; line-height: 130px;
+      font-size: 2.2em; color: #003300; margin-bottom: 7px;
     }
 
     .book-title {
-      display: block;
-      font-size: 0.78em;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 3px;
-      /* truncar si es muy largo */
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
+      display: block; font-size: 0.78em; text-transform: uppercase;
+      letter-spacing: 1px; margin-bottom: 3px;
+      overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
     }
 
     .book-author {
-      display: block;
-      font-size: 0.65em;
-      color: #00aa22;
-      margin-bottom: 5px;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
+      display: block; font-size: 0.65em; color: #00aa22; margin-bottom: 5px;
+      overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
     }
 
     .book-type-badge {
-      display: inline-block;
-      border: 1px solid #00ff41;
-      padding: 1px 5px;
-      font-size: 0.6em;
-      letter-spacing: 2px;
+      display: inline-block; border: 1px solid #00ff41;
+      padding: 1px 5px; font-size: 0.6em; letter-spacing: 2px;
     }
 
     .book-type-badge.epub { border-color: #00aaff; color: #00aaff; }
     .book-type-badge.pdf  { border-color: #00ff41; color: #00ff41; }
 
+    /* ── PLAYER BAR ──────────────────────────── */
+    #player-bar {
+      display: none;
+      position: absolute; left: 0; right: 0;
+      background: #0a0a0a; border-top: 2px solid #00ff41;
+      z-index: 10;
+    }
+
+    #player-info {
+      padding: 6px 14px 0;
+      overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+    }
+
+    #player-title-text  { font-size: 0.82em; letter-spacing: 1px; text-transform: uppercase; }
+    #player-artist-text { font-size: 0.65em; color: #00aa22; margin-left: 8px; letter-spacing: 1px; }
+
+    #player-controls {
+      padding: 4px 14px;
+      /* display: table para iOS 9 */
+      display: table; width: 100%;
+    }
+
+    #player-buttons { display: table-cell; vertical-align: middle; width: 1%; white-space: nowrap; }
+    #player-time    { display: table-cell; vertical-align: middle; width: 1%; white-space: nowrap; text-align: right; font-size: 0.7em; color: #007700; letter-spacing: 1px; padding-left: 8px; }
+    #player-prog-cell { display: table-cell; vertical-align: middle; padding: 0 8px; }
+
+    .ctrl-btn {
+      font-family: "Courier New", Courier, monospace;
+      background: transparent; color: #00ff41;
+      border: 1px solid #00ff41;
+      padding: 4px 8px; font-size: 0.75em; letter-spacing: 1px;
+      cursor: pointer; outline: none; -webkit-appearance: none;
+      margin-right: 4px; min-height: 32px; min-width: 36px;
+    }
+
+    .ctrl-btn:active { background: #00ff41; color: #0a0a0a; }
+
+    #player-progress-track {
+      width: 100%; height: 10px;
+      background: #001a00; border: 1px solid #003300;
+      cursor: pointer; position: relative;
+    }
+
+    #player-progress-fill {
+      height: 100%; width: 0%;
+      background: #00ff41; position: absolute; top: 0; left: 0;
+    }
+
+    /* ── READER OVERLAY ──────────────────────── */
+    #reader-overlay {
+      display: none;
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 50; background: #0a0a0a;
+    }
+
+    #reader-header {
+      padding: 10px 14px; border-bottom: 1px solid #00ff41;
+      background: #0a0a0a; position: relative;
+      overflow: hidden; white-space: nowrap;
+    }
+
+    #btn-close-reader {
+      font-family: "Courier New", Courier, monospace;
+      background: transparent; color: #ff4141;
+      border: 1px solid #ff4141; padding: 4px 10px;
+      font-size: 0.75em; letter-spacing: 2px;
+      cursor: pointer; outline: none; -webkit-appearance: none;
+      vertical-align: middle;
+    }
+
+    #btn-close-reader:active { background: #ff4141; color: #0a0a0a; }
+
+    #reader-title-text {
+      display: inline-block; font-size: 0.82em;
+      letter-spacing: 2px; text-transform: uppercase;
+      margin-left: 10px; vertical-align: middle;
+    }
+
+    #reader-badge {
+      position: absolute; right: 14px; top: 50%; margin-top: -11px;
+      border: 1px solid #00ff41; padding: 2px 6px;
+      font-size: 0.65em; letter-spacing: 2px;
+    }
+
+    #reader-content {
+      position: absolute; left: 0; right: 0;
+      overflow-y: auto; -webkit-overflow-scrolling: touch;
+      background: #0a0a0a;
+    }
+
+    /* iframe para PDF */
+    #reader-content iframe {
+      width: 100%; height: 100%;
+      border: none; display: block; background: #fff;
+    }
+
+    /* contenedor EPUB */
+    #epub-inner {
+      padding: 20px; color: #00ff41;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 15px; line-height: 1.9;
+    }
+
+    #epub-inner h1, #epub-inner h2, #epub-inner h3,
+    #epub-inner h4, #epub-inner h5, #epub-inner h6 {
+      color: #00ff41; letter-spacing: 2px;
+      margin: 24px 0 12px; text-transform: uppercase;
+    }
+
+    #epub-inner p    { margin-bottom: 14px; }
+    #epub-inner a    { color: #00aaff; text-decoration: none; }
+    #epub-inner img  { max-width: 100%; height: auto; margin: 10px 0; }
+    #epub-inner em, #epub-inner i { font-style: italic; }
+    #epub-inner strong, #epub-inner b { font-weight: bold; color: #aaff44; }
+
+    /* nav capítulos EPUB */
+    #reader-nav {
+      display: none; position: absolute; bottom: 0; left: 0; right: 0;
+      border-top: 1px solid #003300; padding: 8px 14px;
+      background: #0a0a0a;
+      /* tabla para alinear los botones */
+      display: none; width: 100%;
+    }
+
+    #reader-nav-inner {
+      display: table; width: 100%;
+    }
+
+    .nav-btn {
+      font-family: "Courier New", Courier, monospace;
+      background: transparent; color: #00ff41;
+      border: 1px solid #003300; padding: 6px 12px;
+      font-size: 0.72em; letter-spacing: 1px;
+      cursor: pointer; outline: none; -webkit-appearance: none;
+      display: table-cell; text-align: center;
+    }
+
+    .nav-btn:active { background: #001a00; }
+
+    #reader-chapter-info {
+      display: table-cell; text-align: center;
+      font-size: 0.68em; color: #005500;
+      letter-spacing: 2px; vertical-align: middle;
+    }
+
     /* ── FOOTER ──────────────────────────────── */
     #lmd-footer {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: #0a0a0a;
-      border-top: 1px solid #002200;
-      padding: 6px 14px;
-      font-size: 0.62em;
-      color: #004400;
-      letter-spacing: 2px;
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: #0a0a0a; border-top: 1px solid #002200;
+      padding: 6px 14px; font-size: 0.62em;
+      color: #004400; letter-spacing: 2px;
     }
 
     #footer-count { color: #007700; }
@@ -323,88 +355,125 @@
 
   <!-- NAV TABS -->
   <div id="lmd-nav">
-    <button class="tab-btn active" id="tab-music"
-            onclick="switchTab('music')">&#9834; MUSICA</button>
-    <button class="tab-btn"        id="tab-books"
-            onclick="switchTab('books')">&#9632; LIBROS</button>
+    <button class="tab-btn active" id="tab-music" onclick="switchTab('music')">&#9834; MUSICA</button>
+    <button class="tab-btn"        id="tab-books" onclick="switchTab('books')">&#9632; LIBROS</button>
   </div>
 
   <!-- SCROLL AREA -->
   <div id="lmd-main">
-
-    <!-- LOADING -->
     <div id="loading-screen">
       CARGANDO BIBLIOTECA<span class="blink">_</span>
     </div>
 
-    <!-- VISTA MUSICA -->
     <div id="view-music" class="view">
       <div class="section-label" id="music-label">// MUSICA</div>
       <div id="music-list"></div>
     </div>
 
-    <!-- VISTA LIBROS -->
     <div id="view-books" class="view">
       <div class="section-label" id="books-label">// LIBROS</div>
       <div id="books-list"></div>
     </div>
+  </div>
 
-  </div><!-- /lmd-main -->
+  <!-- PLAYER BAR -->
+  <div id="player-bar">
+    <div id="player-info">
+      <span id="player-title-text">--</span>
+      <span id="player-artist-text"></span>
+    </div>
+    <div id="player-controls">
+      <div id="player-buttons">
+        <button class="ctrl-btn" onclick="Player.prev()">&#9664;&#9664;</button>
+        <button class="ctrl-btn" id="btn-play-pause" onclick="Player.togglePlay()">&#9654; PLAY</button>
+        <button class="ctrl-btn" onclick="Player.next()">&#9654;&#9654;</button>
+      </div>
+      <div id="player-prog-cell">
+        <div id="player-progress-track" onclick="Player.seek(event)">
+          <div id="player-progress-fill"></div>
+        </div>
+      </div>
+      <div id="player-time">
+        <span id="player-current">0:00</span>/<span id="player-total">0:00</span>
+      </div>
+    </div>
+  </div>
 
   <!-- FOOTER -->
   <div id="lmd-footer">
-    LMD v1.0 &nbsp;&#47;&#47;&nbsp; iPad 2 &nbsp;&#47;&#47;&nbsp;
+    LMD v1.0 &nbsp;//&nbsp; iPad 2 &nbsp;//&nbsp;
     <span id="footer-count">--</span>
+  </div>
+
+  <!-- READER OVERLAY (PDF + EPUB) -->
+  <div id="reader-overlay">
+    <div id="reader-header">
+      <button id="btn-close-reader" onclick="Reader.close()">&#x2717; CERRAR</button>
+      <span id="reader-title-text">--</span>
+      <span id="reader-badge">--</span>
+    </div>
+    <div id="reader-content"></div>
+    <div id="reader-nav">
+      <div id="reader-nav-inner">
+        <button class="nav-btn" onclick="EpubReader.prevChapter()">&#9664; ANTERIOR</button>
+        <span id="reader-chapter-info">CAP 1/1</span>
+        <button class="nav-btn" onclick="EpubReader.nextChapter()">SIGUIENTE &#9654;</button>
+      </div>
+    </div>
   </div>
 
 </div><!-- /app -->
 
 <script type="text/javascript">
-// =================================================
-// LMD — Legacy Media Dashboard
+// ==========================================================
+// LMD — Legacy Media Dashboard  v1.0
 // ES5 — compatible con Safari iOS 9.3.5
-// Sin const/let/arrow/async. Solo var y function.
-// =================================================
+// Sin const / let / arrow / async. Solo var y function.
+// ==========================================================
 
 var LMD = {
-  library:       null,
-  activeTab:     'music',
-  selectedTrack: null,
-  selectedBook:  null
+  library:   null,
+  activeTab: 'music'
 };
 
-// ── RELOJ ───────────────────────────────────────
+// ── RELOJ ────────────────────────────────────────────────
 function tickClock() {
   var now = new Date();
-  var h = now.getHours();
-  var m = now.getMinutes();
-  var s = now.getSeconds();
-  h = h < 10 ? '0' + h : '' + h;
-  m = m < 10 ? '0' + m : '' + m;
-  s = s < 10 ? '0' + s : '' + s;
+  var h = now.getHours(),   m = now.getMinutes(), s = now.getSeconds();
+  h = h < 10 ? '0'+h : ''+h;
+  m = m < 10 ? '0'+m : ''+m;
+  s = s < 10 ? '0'+s : ''+s;
   var el = document.getElementById('header-clock');
-  if (el) { el.textContent = h + ':' + m + ':' + s; }
+  if (el) { el.textContent = h+':'+m+':'+s; }
 }
 setInterval(tickClock, 1000);
 tickClock();
 
-// ── LAYOUT: ajustar altura del área de scroll ───
+// ── LAYOUT ───────────────────────────────────────────────
 function adjustLayout() {
   var header = document.getElementById('lmd-header');
   var nav    = document.getElementById('lmd-nav');
   var footer = document.getElementById('lmd-footer');
+  var player = document.getElementById('player-bar');
   var main   = document.getElementById('lmd-main');
   if (!header || !nav || !footer || !main) { return; }
-  var top    = header.offsetHeight + nav.offsetHeight;
-  var bottom = footer.offsetHeight;
-  main.style.top    = top + 'px';
-  main.style.bottom = bottom + 'px';
+
+  var topH    = header.offsetHeight + nav.offsetHeight;
+  var footerH = footer.offsetHeight;
+  var playerH = (player && player.style.display !== 'none') ? player.offsetHeight : 0;
+  var bottomH = footerH + playerH;
+
+  main.style.top    = topH + 'px';
+  main.style.bottom = bottomH + 'px';
+
+  // Posicionar player encima del footer
+  if (player) { player.style.bottom = footerH + 'px'; }
 }
 
-// ── TABS ────────────────────────────────────────
+// ── TABS ─────────────────────────────────────────────────
 function switchTab(tab) {
   LMD.activeTab = tab;
-  var all = ['music', 'books'];
+  var all = ['music','books'];
   for (var i = 0; i < all.length; i++) {
     var btn  = document.getElementById('tab-' + all[i]);
     var view = document.getElementById('view-' + all[i]);
@@ -418,36 +487,34 @@ function switchTab(tab) {
   }
 }
 
-// ── FORMATO DURACIÓN ─────────────────────────────
-function fmtDuration(sec) {
-  if (!sec || isNaN(sec)) { return '--:--'; }
+// ── FORMATO TIEMPO ────────────────────────────────────────
+function fmtTime(sec) {
+  if (!sec || isNaN(sec)) { return '0:00'; }
   var m = Math.floor(sec / 60);
-  var s = sec % 60;
-  return m + ':' + (s < 10 ? '0' + s : s);
+  var s = Math.floor(sec % 60);
+  return m + ':' + (s < 10 ? '0'+s : s);
 }
 
-// ── RENDER MÚSICA ────────────────────────────────
+// ── RENDER MÚSICA ─────────────────────────────────────────
 function renderMusic(tracks) {
   var container = document.getElementById('music-list');
   var label     = document.getElementById('music-label');
   if (!container) { return; }
-
   label.textContent = '// MUSICA — ' + tracks.length + ' PISTAS';
   container.innerHTML = '';
-
   if (!tracks.length) {
     container.innerHTML = '<div class="section-label">SIN PISTAS DISPONIBLES</div>';
     return;
   }
-
   for (var i = 0; i < tracks.length; i++) {
     (function(track, idx) {
       var item = document.createElement('div');
       item.className = 'music-item';
+      item.setAttribute('data-index', idx);
 
       var num = document.createElement('span');
       num.className   = 'music-num';
-      num.textContent = (idx + 1 < 10 ? '0' : '') + (idx + 1);
+      num.textContent = (idx+1 < 10 ? '0' : '') + (idx+1);
 
       var titleEl = document.createElement('span');
       titleEl.className   = 'music-title';
@@ -460,71 +527,57 @@ function renderMusic(tracks) {
 
       var durEl = document.createElement('span');
       durEl.className   = 'music-duration';
-      durEl.textContent = fmtDuration(track.duration);
+      durEl.textContent = fmtTime(track.duration);
 
       item.appendChild(num);
       item.appendChild(titleEl);
       item.appendChild(metaEl);
       item.appendChild(durEl);
 
-      item.onclick = function() { selectTrack(idx, item); };
+      item.onclick = function() { Player.play(idx); };
       container.appendChild(item);
     })(tracks[i], i);
   }
 }
 
-function selectTrack(idx, el) {
-  var prev = document.querySelector('.music-item.selected');
-  if (prev) { prev.className = 'music-item'; }
-  el.className   = 'music-item selected';
-  LMD.selectedTrack = LMD.library.music[idx];
-  // Hito 3: arrancar reproductor
-}
-
-// ── RENDER LIBROS ────────────────────────────────
+// ── RENDER LIBROS ──────────────────────────────────────────
 function renderBooks(books) {
   var container = document.getElementById('books-list');
   var label     = document.getElementById('books-label');
   if (!container) { return; }
-
   label.textContent = '// LIBROS — ' + books.length + ' TITULOS';
   container.innerHTML = '';
-
   if (!books.length) {
     container.innerHTML = '<div class="section-label">SIN LIBROS DISPONIBLES</div>';
     return;
   }
-
   for (var i = 0; i < books.length; i++) {
     (function(book, idx) {
       var item = document.createElement('div');
       item.className = 'book-item';
 
-      // Portada
       if (book.cover) {
         var wrap = document.createElement('div');
         wrap.className = 'book-cover-wrap';
         var img = document.createElement('img');
         img.alt = book.title || '';
         img.onerror = function() {
-          // Si la imagen falla, mostrar placeholder
           var ph = document.createElement('div');
           ph.className   = 'book-cover-placeholder';
           ph.textContent = '\u25a3';
           item.insertBefore(ph, wrap);
           item.removeChild(wrap);
         };
-        // Validar URL antes de asignar (descarta typos como hhtps://)
-        var coverUrl = (book.cover || '').replace(/^\s+/, '');
+        var coverUrl = (book.cover || '').replace(/^\s+/,'');
         img.src = (coverUrl.indexOf('https://') === 0 || coverUrl.indexOf('http://') === 0)
                   ? coverUrl : '';
         wrap.appendChild(img);
         item.appendChild(wrap);
       } else {
-        var ph = document.createElement('div');
-        ph.className   = 'book-cover-placeholder';
-        ph.textContent = '\u25a3';
-        item.appendChild(ph);
+        var ph2 = document.createElement('div');
+        ph2.className   = 'book-cover-placeholder';
+        ph2.textContent = '\u25a3';
+        item.appendChild(ph2);
       }
 
       var titleEl = document.createElement('span');
@@ -537,7 +590,7 @@ function renderBooks(books) {
       authorEl.textContent = (book.author || 'AUTOR DESCONOCIDO').toUpperCase();
 
       var typeEl = document.createElement('span');
-      var t = (book.type || 'DOC').toLowerCase();
+      var t = (book.type || 'doc').toLowerCase();
       typeEl.className   = 'book-type-badge ' + t;
       typeEl.textContent = t.toUpperCase();
 
@@ -545,21 +598,337 @@ function renderBooks(books) {
       item.appendChild(authorEl);
       item.appendChild(typeEl);
 
-      item.onclick = function() { selectBook(idx, item); };
+      item.onclick = function() { Reader.open(idx, item); };
       container.appendChild(item);
     })(books[i], i);
   }
 }
 
-function selectBook(idx, el) {
-  var prev = document.querySelector('.book-item.selected');
-  if (prev) { prev.className = 'book-item'; }
-  el.className  = 'book-item selected';
-  LMD.selectedBook = LMD.library.books[idx];
-  // Hito 3: abrir lector
-}
+// ==========================================================
+// PLAYER DE AUDIO
+// ==========================================================
+var Player = {
+  audio:      null,
+  trackIndex: -1,
+  playing:    false,
 
-// ── FETCH ────────────────────────────────────────
+  init: function() {
+    Player.audio = new Audio();
+    Player.audio.ontimeupdate      = Player._onTimeUpdate;
+    Player.audio.onended           = Player._onEnded;
+    Player.audio.onloadedmetadata  = Player._onMeta;
+    Player.audio.onerror           = Player._onError;
+  },
+
+  play: function(idx) {
+    if (!LMD.library || !LMD.library.music) { return; }
+    var track = LMD.library.music[idx];
+    if (!track) { return; }
+
+    Player.trackIndex = idx;
+
+    // Resaltar ítem en la lista
+    var prev = document.querySelector('.music-item.playing');
+    if (prev) { prev.className = 'music-item'; }
+    var el = document.querySelector('.music-item[data-index="' + idx + '"]');
+    if (el) { el.className = 'music-item playing'; }
+
+    // Info en el player bar
+    document.getElementById('player-title-text').textContent  = (track.title  || '--').toUpperCase();
+    document.getElementById('player-artist-text').textContent = (track.artist || '').toUpperCase();
+    document.getElementById('player-current').textContent     = '0:00';
+    document.getElementById('player-total').textContent       = fmtTime(track.duration);
+    document.getElementById('player-progress-fill').style.width = '0%';
+    document.getElementById('btn-play-pause').textContent     = '\u23f8 PAUSA';
+
+    // Mostrar player bar
+    document.getElementById('player-bar').style.display = 'block';
+    adjustLayout();
+
+    // Reproducir
+    Player.audio.src = track.url;
+    Player.audio.load();
+    Player.audio.play();
+    Player.playing = true;
+  },
+
+  togglePlay: function() {
+    if (!Player.audio) { return; }
+    if (Player.playing) {
+      Player.audio.pause();
+      Player.playing = false;
+      document.getElementById('btn-play-pause').textContent = '\u25b6 PLAY';
+    } else {
+      Player.audio.play();
+      Player.playing = true;
+      document.getElementById('btn-play-pause').textContent = '\u23f8 PAUSA';
+    }
+  },
+
+  prev: function() {
+    if (!LMD.library) { return; }
+    var idx = Player.trackIndex - 1;
+    if (idx < 0) { idx = LMD.library.music.length - 1; }
+    Player.play(idx);
+  },
+
+  next: function() {
+    if (!LMD.library) { return; }
+    var idx = (Player.trackIndex + 1) % LMD.library.music.length;
+    Player.play(idx);
+  },
+
+  seek: function(e) {
+    if (!Player.audio || !Player.audio.duration) { return; }
+    var bar  = document.getElementById('player-progress-track');
+    var rect = bar.getBoundingClientRect();
+    var x    = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+    var pct  = x / rect.width;
+    if (pct < 0) { pct = 0; }
+    if (pct > 1) { pct = 1; }
+    Player.audio.currentTime = pct * Player.audio.duration;
+  },
+
+  _onTimeUpdate: function() {
+    var cur = Player.audio.currentTime;
+    var dur = Player.audio.duration || 0;
+    document.getElementById('player-current').textContent = fmtTime(cur);
+    if (dur) {
+      document.getElementById('player-progress-fill').style.width =
+        Math.floor((cur / dur) * 100) + '%';
+    }
+  },
+
+  _onMeta: function() {
+    document.getElementById('player-total').textContent =
+      fmtTime(Player.audio.duration);
+  },
+
+  _onEnded: function() {
+    Player.next();
+  },
+
+  _onError: function() {
+    document.getElementById('player-title-text').textContent = 'ERROR AL CARGAR AUDIO';
+    document.getElementById('btn-play-pause').textContent = '\u25b6 PLAY';
+    Player.playing = false;
+  }
+};
+
+// ==========================================================
+// LECTOR (PDF + EPUB)
+// ==========================================================
+var Reader = {
+  open: function(idx, el) {
+    var book = LMD.library.books[idx];
+    if (!book) { return; }
+
+    // Marcar libro seleccionado
+    var prev = document.querySelector('.book-item.selected');
+    if (prev) { prev.className = 'book-item'; }
+    if (el) { el.className = 'book-item selected'; }
+
+    // Configurar overlay
+    document.getElementById('reader-title-text').textContent =
+      (book.title || 'SIN TITULO').toUpperCase();
+    document.getElementById('reader-badge').textContent =
+      (book.type || 'DOC').toUpperCase();
+
+    // Limpiar contenido previo
+    document.getElementById('reader-content').innerHTML = '';
+    document.getElementById('reader-nav').style.display = 'none';
+
+    // Abrir
+    document.getElementById('reader-overlay').style.display = 'block';
+    Reader._adjustReaderLayout(false);
+
+    if (book.type === 'epub') {
+      EpubReader.open(book);
+    } else {
+      PdfReader.open(book);
+    }
+  },
+
+  close: function() {
+    document.getElementById('reader-overlay').style.display = 'none';
+    document.getElementById('reader-content').innerHTML = '';
+    // Detener cualquier iframe para liberar RAM
+    EpubReader.reset();
+  },
+
+  // Ajusta reader-content entre header y (nav si EPUB)
+  _adjustReaderLayout: function(hasNav) {
+    var rHeader = document.getElementById('reader-header');
+    var rNav    = document.getElementById('reader-nav');
+    var rContent= document.getElementById('reader-content');
+    if (!rHeader || !rContent) { return; }
+
+    var topH    = rHeader.offsetHeight;
+    var bottomH = hasNav ? rNav.offsetHeight : 0;
+    rContent.style.top    = topH + 'px';
+    rContent.style.bottom = bottomH + 'px';
+  }
+};
+
+// ── LECTOR PDF ────────────────────────────────────────────
+var PdfReader = {
+  open: function(book) {
+    var content = document.getElementById('reader-content');
+    var iframe  = document.createElement('iframe');
+    iframe.src  = book.url;
+    // iOS 9 maneja PDF nativo en iframe
+    content.appendChild(iframe);
+  }
+};
+
+// ── LECTOR EPUB ───────────────────────────────────────────
+var EpubReader = {
+  zip:            null,
+  spine:          [],
+  currentChapter: 0,
+
+  reset: function() {
+    EpubReader.zip   = null;
+    EpubReader.spine = [];
+    EpubReader.currentChapter = 0;
+  },
+
+  open: function(book) {
+    var content = document.getElementById('reader-content');
+    content.innerHTML =
+      '<div style="padding:40px;text-align:center;letter-spacing:3px;color:#00aa22">' +
+      'CARGANDO EPUB<span class="blink">_</span></div>';
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', book.url, true);
+    xhr.responseType = 'arraybuffer';
+
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState !== 4) { return; }
+      if (xhr.status === 200) {
+        EpubReader._parse(xhr.response);
+      } else {
+        EpubReader._error('HTTP ' + xhr.status);
+      }
+    };
+
+    xhr.onerror = function() { EpubReader._error('FALLA DE RED'); };
+    xhr.send();
+  },
+
+  _parse: function(buffer) {
+    try {
+      var zip = new JSZip(buffer);
+      EpubReader.zip = zip;
+
+      // 1. container.xml → ruta del OPF
+      var containerFile = zip.file('META-INF/container.xml');
+      if (!containerFile) { throw new Error('container.xml no encontrado'); }
+      var containerXml = containerFile.asText();
+
+      var opfMatch = containerXml.match(/full-path="([^"]+)"/);
+      if (!opfMatch) { throw new Error('OPF path no encontrado'); }
+      var opfPath = opfMatch[1];
+      var opfDir  = opfPath.lastIndexOf('/') !== -1
+                    ? opfPath.substring(0, opfPath.lastIndexOf('/') + 1)
+                    : '';
+
+      // 2. OPF → manifest + spine
+      var opfFile = zip.file(opfPath);
+      if (!opfFile) { throw new Error('OPF no encontrado'); }
+      var opfXml  = opfFile.asText();
+
+      // Manifest: id → href
+      var manifest = {};
+      var mReg = /<item[^>]+id="([^"]+)"[^>]+href="([^"]+)"[^>]*\/?>/g;
+      var mMatch;
+      while ((mMatch = mReg.exec(opfXml)) !== null) {
+        // Normalizar href (quitar fragment #)
+        var href = mMatch[2].split('#')[0];
+        manifest[mMatch[1]] = href;
+      }
+
+      // Spine: orden de lectura
+      var spine  = [];
+      var sReg   = /<itemref[^>]+idref="([^"]+)"[^>]*\/?>/g;
+      var sMatch;
+      while ((sMatch = sReg.exec(opfXml)) !== null) {
+        var itemHref = manifest[sMatch[1]];
+        if (itemHref) {
+          // Path completo desde la raíz del ZIP
+          var fullPath = opfDir + itemHref;
+          spine.push(fullPath);
+        }
+      }
+
+      if (!spine.length) { throw new Error('Spine vacío — EPUB sin capítulos'); }
+
+      EpubReader.spine          = spine;
+      EpubReader.currentChapter = 0;
+      EpubReader._renderChapter(0);
+
+    } catch (e) {
+      EpubReader._error(e.message);
+    }
+  },
+
+  _renderChapter: function(idx) {
+    var spine = EpubReader.spine;
+    var zip   = EpubReader.zip;
+    if (!zip || idx < 0 || idx >= spine.length) { return; }
+    EpubReader.currentChapter = idx;
+
+    var file = zip.file(spine[idx]);
+    if (!file) {
+      EpubReader._error('Capítulo no encontrado: ' + spine[idx]);
+      return;
+    }
+
+    var rawHtml = file.asText();
+
+    // Extraer contenido del body
+    var bodyMatch = rawHtml.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+    var bodyContent = bodyMatch ? bodyMatch[1] : rawHtml;
+
+    // Inyectar en el contenedor
+    var content = document.getElementById('reader-content');
+    content.innerHTML = '<div id="epub-inner">' + bodyContent + '</div>';
+    content.scrollTop = 0;
+
+    // Mostrar nav de capítulos
+    var nav = document.getElementById('reader-nav');
+    nav.style.display = 'block';
+
+    // Actualizar info
+    document.getElementById('reader-chapter-info').textContent =
+      'CAP ' + (idx + 1) + ' / ' + spine.length;
+
+    // Ajustar layout ahora que el nav está visible
+    Reader._adjustReaderLayout(true);
+
+    // Deshabilitar botones en los extremos
+    var prevBtn = nav.querySelector('.nav-btn:first-child');
+    var nextBtn = nav.querySelector('.nav-btn:last-child');
+    if (prevBtn) { prevBtn.style.visibility = idx === 0              ? 'hidden' : 'visible'; }
+    if (nextBtn) { nextBtn.style.visibility = idx === spine.length-1 ? 'hidden' : 'visible'; }
+  },
+
+  prevChapter: function() {
+    EpubReader._renderChapter(EpubReader.currentChapter - 1);
+  },
+
+  nextChapter: function() {
+    EpubReader._renderChapter(EpubReader.currentChapter + 1);
+  },
+
+  _error: function(msg) {
+    document.getElementById('reader-content').innerHTML =
+      '<div style="padding:30px;color:#ff4141;letter-spacing:2px">' +
+      '&#x2717; ERROR: ' + msg + '</div>';
+  }
+};
+
+// ── FETCH LIBRARY ──────────────────────────────────────────
 function fetchLibrary() {
   var xhr = new XMLHttpRequest();
   xhr.open('GET', '/api/fetch-library', true);
@@ -567,26 +936,20 @@ function fetchLibrary() {
   xhr.onreadystatechange = function() {
     if (xhr.readyState !== 4) { return; }
 
-    var loading   = document.getElementById('loading-screen');
-    var statusEl  = document.getElementById('header-status');
-    var countEl   = document.getElementById('footer-count');
+    var loading  = document.getElementById('loading-screen');
+    var statusEl = document.getElementById('header-status');
+    var countEl  = document.getElementById('footer-count');
 
     if (xhr.status === 200) {
       try {
-        var lib = JSON.parse(xhr.responseText);
+        var lib   = JSON.parse(xhr.responseText);
         LMD.library = lib;
-
         var music = lib.music || [];
         var books = lib.books || [];
 
         if (loading)  { loading.style.display = 'none'; }
-        if (statusEl) {
-          statusEl.textContent = 'EN LINEA';
-          statusEl.style.color = '#00ff41';
-        }
-        if (countEl) {
-          countEl.textContent = music.length + ' PISTAS / ' + books.length + ' LIBROS';
-        }
+        if (statusEl) { statusEl.textContent = 'EN LINEA'; statusEl.style.color = '#00ff41'; }
+        if (countEl)  { countEl.textContent  = music.length + ' PISTAS / ' + books.length + ' LIBROS'; }
 
         renderMusic(music);
         renderBooks(books);
@@ -609,20 +972,15 @@ function showError(msg) {
   var statusEl = document.getElementById('header-status');
   if (loading) {
     loading.innerHTML =
-      '<span style="color:#ff4141">&#x2717; ' + msg + '</span>' +
-      '<br><br>' +
-      '<span style="font-size:0.8em;color:#555555;letter-spacing:1px">' +
-      'Verifica tu conexion e intenta de nuevo.' +
-      '</span>';
+      '<span style="color:#ff4141">&#x2717; ' + msg + '</span><br><br>' +
+      '<span style="font-size:0.8em;color:#555;letter-spacing:1px">Verifica tu conexion e intenta de nuevo.</span>';
   }
-  if (statusEl) {
-    statusEl.textContent = 'FUERA DE LINEA';
-    statusEl.style.color = '#ff4141';
-  }
+  if (statusEl) { statusEl.textContent = 'FUERA DE LINEA'; statusEl.style.color = '#ff4141'; }
 }
 
-// ── INIT ─────────────────────────────────────────
+// ── INIT ────────────────────────────────────────────────────
 window.onload = function() {
+  Player.init();
   adjustLayout();
   fetchLibrary();
 };
