@@ -1,9 +1,5 @@
 {
   "version": 2,
-  "name": "legacy-media-dashboard",
-  "engines": {
-    "node": "18.x"
-  },
   "functions": {
     "api/*.js": {
       "maxDuration": 10

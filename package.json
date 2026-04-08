@@ -4,6 +4,6 @@
   "description": "Ultra-lightweight media dashboard for legacy hardware (iPad 2 / iOS 9.3.5)",
   "private": true,
   "engines": {
-    "node": "18.x"
+    "node": "22.x"
   }
 }
