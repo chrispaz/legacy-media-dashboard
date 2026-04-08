@@ -620,11 +620,23 @@ var Player = {
   playing:    false,
 
   init: function() {
-    Player.audio = new Audio();
-    Player.audio.ontimeupdate      = Player._onTimeUpdate;
-    Player.audio.onended           = Player._onEnded;
-    Player.audio.onloadedmetadata  = Player._onMeta;
-    Player.audio.onerror           = Player._onError;
+    // iOS Safari requiere:
+    // 1. createElement (no new Audio) — el elemento debe pertenecer al documento
+    // 2. playsinline — sin esto iOS abre su propio player nativo y falla
+    // 3. preload="none" — evita prefetch que consume el gesto de usuario
+    // 4. appendChild — el elemento debe estar en el DOM
+    var a = document.createElement('audio');
+    a.setAttribute('preload', 'none');
+    a.setAttribute('playsinline', '');
+    a.setAttribute('webkit-playsinline', '');
+    a.style.display = 'none';
+    document.body.appendChild(a);
+
+    Player.audio = a;
+    Player.audio.ontimeupdate     = Player._onTimeUpdate;
+    Player.audio.onended          = Player._onEnded;
+    Player.audio.onloadedmetadata = Player._onMeta;
+    Player.audio.onerror          = Player._onError;
   },
 
   play: function(idx) {
@@ -715,7 +727,10 @@ var Player = {
   },
 
   _onError: function() {
-    document.getElementById('player-title-text').textContent = 'ERROR AL CARGAR AUDIO';
+    var code = (Player.audio && Player.audio.error) ? Player.audio.error.code : '?';
+    // Códigos: 1=aborted 2=network 3=decode 4=format
+    document.getElementById('player-title-text').textContent =
+      'ERROR AUDIO [cod:' + code + ']';
     document.getElementById('btn-play-pause').textContent = '\u25b6 PLAY';
     Player.playing = false;
   }
