@@ -2,68 +2,631 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LMD — Legacy Media Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <title>LMD</title>
   <style>
-    body {
+
+    /* ── RESET ───────────────────────────────── */
+    * {
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
       background: #0a0a0a;
+    }
+
+    /* ── TIPOGRAFÍA BASE ─────────────────────── */
+    body {
       color: #00ff41;
       font-family: "Courier New", Courier, monospace;
-      margin: 0;
-      padding: 20px;
+      font-size: 14px;
+      line-height: 1.5;
     }
-    h1 { font-size: 1.2em; letter-spacing: 2px; border-bottom: 1px solid #00ff41; padding-bottom: 8px; }
-    .status { font-size: 0.85em; margin-top: 16px; }
-    .ok  { color: #00ff41; }
-    .err { color: #ff4141; }
-    pre  { font-size: 0.7em; overflow: auto; white-space: pre-wrap; }
+
+    /* ── APP SHELL ───────────────────────────── */
+    #app {
+      position: relative;
+      height: 100%;
+    }
+
+    /* ── HEADER ──────────────────────────────── */
+    #lmd-header {
+      background: #0a0a0a;
+      border-bottom: 2px solid #00ff41;
+      padding: 8px 14px;
+      position: relative;
+    }
+
+    #header-logo {
+      font-size: 1.05em;
+      letter-spacing: 5px;
+      font-weight: bold;
+    }
+
+    #header-status {
+      font-size: 0.68em;
+      color: #00cc33;
+      margin-left: 10px;
+      letter-spacing: 2px;
+    }
+
+    #header-clock {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      margin-top: -9px;
+      font-size: 0.78em;
+      letter-spacing: 2px;
+      color: #00aa22;
+    }
+
+    /* ── NAV TABS ────────────────────────────── */
+    #lmd-nav {
+      background: #0a0a0a;
+      border-bottom: 1px solid #00ff41;
+    }
+
+    .tab-btn {
+      display: inline-block;
+      padding: 10px 22px;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 0.8em;
+      letter-spacing: 3px;
+      color: #00ff41;
+      background: transparent;
+      border: none;
+      border-right: 1px solid #003300;
+      cursor: pointer;
+      text-transform: uppercase;
+      outline: none;
+      -webkit-appearance: none;
+      min-height: 44px;
+    }
+
+    .tab-btn.active {
+      background: #00ff41;
+      color: #0a0a0a;
+      font-weight: bold;
+      border-right-color: #00ff41;
+    }
+
+    /* ── SCROLL AREA ─────────────────────────── */
+    #lmd-main {
+      position: absolute;
+      left: 0;
+      right: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* ── LOADING ─────────────────────────────── */
+    #loading-screen {
+      text-align: center;
+      padding: 60px 20px;
+      letter-spacing: 3px;
+      font-size: 0.85em;
+      color: #00aa22;
+    }
+
+    .blink {
+      -webkit-animation: blink 1s step-end infinite;
+      animation: blink 1s step-end infinite;
+    }
+
+    @-webkit-keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
+
+    /* ── VIEWS ───────────────────────────────── */
+    .view { display: none; }
+    .view.active { display: block; }
+
+    /* ── SECTION LABEL ───────────────────────── */
+    .section-label {
+      padding: 7px 14px;
+      font-size: 0.65em;
+      letter-spacing: 4px;
+      color: #005500;
+      border-bottom: 1px solid #001a00;
+      text-transform: uppercase;
+    }
+
+    /* ── MÚSICA: LISTA ───────────────────────── */
+    .music-item {
+      display: block;
+      padding: 13px 14px;
+      border-bottom: 1px solid #001a00;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .music-item:active { background: #001500; }
+
+    .music-item.selected {
+      background: #001a00;
+      border-left: 3px solid #00ff41;
+    }
+
+    .music-num {
+      display: inline-block;
+      color: #005500;
+      font-size: 0.72em;
+      width: 26px;
+      text-align: right;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+
+    .music-title {
+      display: inline-block;
+      font-size: 0.88em;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      vertical-align: middle;
+    }
+
+    .music-meta {
+      font-size: 0.68em;
+      color: #00aa22;
+      margin-top: 4px;
+      padding-left: 36px;
+      letter-spacing: 1px;
+    }
+
+    .music-duration {
+      position: absolute;
+      right: 14px;
+      top: 14px;
+      font-size: 0.72em;
+      color: #005500;
+      letter-spacing: 1px;
+    }
+
+    /* ── LIBROS: GRID ────────────────────────── */
+    #books-list {
+      padding: 12px;
+    }
+
+    /* clearfix para float */
+    #books-list:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    .book-item {
+      float: left;
+      width: 48%;
+      margin-right: 2%;
+      margin-bottom: 12px;
+      border: 1px solid #003300;
+      padding: 8px;
+      cursor: pointer;
+    }
+
+    /* cada 2 elementos, sin margen derecho */
+    .book-item:nth-child(2n) {
+      margin-right: 0;
+    }
+
+    .book-item:active  { background: #001500; }
+    .book-item.selected {
+      border-color: #00ff41;
+      background: #001a00;
+    }
+
+    .book-cover-wrap {
+      width: 100%;
+      height: 130px;
+      background: #001100;
+      border: 1px solid #002200;
+      display: block;
+      text-align: center;
+      overflow: hidden;
+      margin-bottom: 7px;
+    }
+
+    .book-cover-wrap img {
+      max-width: 100%;
+      max-height: 130px;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .book-cover-placeholder {
+      width: 100%;
+      height: 130px;
+      background: #001100;
+      border: 1px solid #002200;
+      display: block;
+      text-align: center;
+      line-height: 130px;
+      font-size: 2.2em;
+      color: #003300;
+      margin-bottom: 7px;
+    }
+
+    .book-title {
+      display: block;
+      font-size: 0.78em;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 3px;
+      /* truncar si es muy largo */
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .book-author {
+      display: block;
+      font-size: 0.65em;
+      color: #00aa22;
+      margin-bottom: 5px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .book-type-badge {
+      display: inline-block;
+      border: 1px solid #00ff41;
+      padding: 1px 5px;
+      font-size: 0.6em;
+      letter-spacing: 2px;
+    }
+
+    .book-type-badge.epub { border-color: #00aaff; color: #00aaff; }
+    .book-type-badge.pdf  { border-color: #00ff41; color: #00ff41; }
+
+    /* ── FOOTER ──────────────────────────────── */
+    #lmd-footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #0a0a0a;
+      border-top: 1px solid #002200;
+      padding: 6px 14px;
+      font-size: 0.62em;
+      color: #004400;
+      letter-spacing: 2px;
+    }
+
+    #footer-count { color: #007700; }
+
   </style>
 </head>
 <body>
-  <h1>[ LMD // SISTEMA INICIANDO ]</h1>
-  <div class="status" id="status">Conectando con biblioteca...</div>
-  <pre id="output"></pre>
+<div id="app">
 
-  <script type="text/javascript">
-    // ES5 — compatible con Safari iOS 9.3.5
-    var statusEl = document.getElementById('status');
-    var outputEl = document.getElementById('output');
+  <!-- HEADER -->
+  <div id="lmd-header">
+    <span id="header-logo">[ LMD ]</span>
+    <span id="header-status">INICIANDO</span>
+    <span id="header-clock">--:--:--</span>
+  </div>
 
-    function fetchLibrary() {
-      var xhr = new XMLHttpRequest();
-      xhr.open('GET', '/api/fetch-library', true);
+  <!-- NAV TABS -->
+  <div id="lmd-nav">
+    <button class="tab-btn active" id="tab-music"
+            onclick="switchTab('music')">&#9834; MUSICA</button>
+    <button class="tab-btn"        id="tab-books"
+            onclick="switchTab('books')">&#9632; LIBROS</button>
+  </div>
 
-      xhr.onreadystatechange = function() {
-        if (xhr.readyState !== 4) return;
+  <!-- SCROLL AREA -->
+  <div id="lmd-main">
 
-        if (xhr.status === 200) {
-          try {
-            var lib = JSON.parse(xhr.responseText);
-            var music  = lib.music  ? lib.music.length  : 0;
-            var books  = lib.books  ? lib.books.length  : 0;
+    <!-- LOADING -->
+    <div id="loading-screen">
+      CARGANDO BIBLIOTECA<span class="blink">_</span>
+    </div>
 
-            statusEl.className = 'status ok';
-            statusEl.innerHTML = 'API OK &mdash; ' + music + ' pistas, ' + books + ' libros';
-            outputEl.textContent = JSON.stringify(lib, null, 2);
-          } catch (e) {
-            statusEl.className = 'status err';
-            statusEl.textContent = 'ERROR: respuesta JSON invalida';
-          }
-        } else {
-          statusEl.className = 'status err';
-          statusEl.textContent = 'ERROR ' + xhr.status + ': no se pudo conectar con la biblioteca';
-        }
-      };
+    <!-- VISTA MUSICA -->
+    <div id="view-music" class="view">
+      <div class="section-label" id="music-label">// MUSICA</div>
+      <div id="music-list"></div>
+    </div>
 
-      xhr.onerror = function() {
-        statusEl.className = 'status err';
-        statusEl.textContent = 'ERROR: falla de red';
-      };
+    <!-- VISTA LIBROS -->
+    <div id="view-books" class="view">
+      <div class="section-label" id="books-label">// LIBROS</div>
+      <div id="books-list"></div>
+    </div>
 
-      xhr.send();
+  </div><!-- /lmd-main -->
+
+  <!-- FOOTER -->
+  <div id="lmd-footer">
+    LMD v1.0 &nbsp;&#47;&#47;&nbsp; iPad 2 &nbsp;&#47;&#47;&nbsp;
+    <span id="footer-count">--</span>
+  </div>
+
+</div><!-- /app -->
+
+<script type="text/javascript">
+// =================================================
+// LMD — Legacy Media Dashboard
+// ES5 — compatible con Safari iOS 9.3.5
+// Sin const/let/arrow/async. Solo var y function.
+// =================================================
+
+var LMD = {
+  library:       null,
+  activeTab:     'music',
+  selectedTrack: null,
+  selectedBook:  null
+};
+
+// ── RELOJ ───────────────────────────────────────
+function tickClock() {
+  var now = new Date();
+  var h = now.getHours();
+  var m = now.getMinutes();
+  var s = now.getSeconds();
+  h = h < 10 ? '0' + h : '' + h;
+  m = m < 10 ? '0' + m : '' + m;
+  s = s < 10 ? '0' + s : '' + s;
+  var el = document.getElementById('header-clock');
+  if (el) { el.textContent = h + ':' + m + ':' + s; }
+}
+setInterval(tickClock, 1000);
+tickClock();
+
+// ── LAYOUT: ajustar altura del área de scroll ───
+function adjustLayout() {
+  var header = document.getElementById('lmd-header');
+  var nav    = document.getElementById('lmd-nav');
+  var footer = document.getElementById('lmd-footer');
+  var main   = document.getElementById('lmd-main');
+  if (!header || !nav || !footer || !main) { return; }
+  var top    = header.offsetHeight + nav.offsetHeight;
+  var bottom = footer.offsetHeight;
+  main.style.top    = top + 'px';
+  main.style.bottom = bottom + 'px';
+}
+
+// ── TABS ────────────────────────────────────────
+function switchTab(tab) {
+  LMD.activeTab = tab;
+  var all = ['music', 'books'];
+  for (var i = 0; i < all.length; i++) {
+    var btn  = document.getElementById('tab-' + all[i]);
+    var view = document.getElementById('view-' + all[i]);
+    if (all[i] === tab) {
+      if (btn)  { btn.className  = 'tab-btn active'; }
+      if (view) { view.className = 'view active'; }
+    } else {
+      if (btn)  { btn.className  = 'tab-btn'; }
+      if (view) { view.className = 'view'; }
     }
+  }
+}
 
-    fetchLibrary();
-  </script>
+// ── FORMATO DURACIÓN ─────────────────────────────
+function fmtDuration(sec) {
+  if (!sec || isNaN(sec)) { return '--:--'; }
+  var m = Math.floor(sec / 60);
+  var s = sec % 60;
+  return m + ':' + (s < 10 ? '0' + s : s);
+}
+
+// ── RENDER MÚSICA ────────────────────────────────
+function renderMusic(tracks) {
+  var container = document.getElementById('music-list');
+  var label     = document.getElementById('music-label');
+  if (!container) { return; }
+
+  label.textContent = '// MUSICA — ' + tracks.length + ' PISTAS';
+  container.innerHTML = '';
+
+  if (!tracks.length) {
+    container.innerHTML = '<div class="section-label">SIN PISTAS DISPONIBLES</div>';
+    return;
+  }
+
+  for (var i = 0; i < tracks.length; i++) {
+    (function(track, idx) {
+      var item = document.createElement('div');
+      item.className = 'music-item';
+
+      var num = document.createElement('span');
+      num.className   = 'music-num';
+      num.textContent = (idx + 1 < 10 ? '0' : '') + (idx + 1);
+
+      var titleEl = document.createElement('span');
+      titleEl.className   = 'music-title';
+      titleEl.textContent = (track.title || 'SIN TITULO').toUpperCase();
+
+      var metaEl = document.createElement('div');
+      metaEl.className   = 'music-meta';
+      metaEl.textContent = (track.artist || 'DESCONOCIDO').toUpperCase() +
+                           (track.album ? ' — ' + track.album.toUpperCase() : '');
+
+      var durEl = document.createElement('span');
+      durEl.className   = 'music-duration';
+      durEl.textContent = fmtDuration(track.duration);
+
+      item.appendChild(num);
+      item.appendChild(titleEl);
+      item.appendChild(metaEl);
+      item.appendChild(durEl);
+
+      item.onclick = function() { selectTrack(idx, item); };
+      container.appendChild(item);
+    })(tracks[i], i);
+  }
+}
+
+function selectTrack(idx, el) {
+  var prev = document.querySelector('.music-item.selected');
+  if (prev) { prev.className = 'music-item'; }
+  el.className   = 'music-item selected';
+  LMD.selectedTrack = LMD.library.music[idx];
+  // Hito 3: arrancar reproductor
+}
+
+// ── RENDER LIBROS ────────────────────────────────
+function renderBooks(books) {
+  var container = document.getElementById('books-list');
+  var label     = document.getElementById('books-label');
+  if (!container) { return; }
+
+  label.textContent = '// LIBROS — ' + books.length + ' TITULOS';
+  container.innerHTML = '';
+
+  if (!books.length) {
+    container.innerHTML = '<div class="section-label">SIN LIBROS DISPONIBLES</div>';
+    return;
+  }
+
+  for (var i = 0; i < books.length; i++) {
+    (function(book, idx) {
+      var item = document.createElement('div');
+      item.className = 'book-item';
+
+      // Portada
+      if (book.cover) {
+        var wrap = document.createElement('div');
+        wrap.className = 'book-cover-wrap';
+        var img = document.createElement('img');
+        img.alt = book.title || '';
+        img.onerror = function() {
+          // Si la imagen falla, mostrar placeholder
+          var ph = document.createElement('div');
+          ph.className   = 'book-cover-placeholder';
+          ph.textContent = '\u25a3';
+          item.insertBefore(ph, wrap);
+          item.removeChild(wrap);
+        };
+        img.src = book.cover; // asignar src después de onerror
+        wrap.appendChild(img);
+        item.appendChild(wrap);
+      } else {
+        var ph = document.createElement('div');
+        ph.className   = 'book-cover-placeholder';
+        ph.textContent = '\u25a3';
+        item.appendChild(ph);
+      }
+
+      var titleEl = document.createElement('span');
+      titleEl.className   = 'book-title';
+      titleEl.textContent = (book.title  || 'SIN TITULO').toUpperCase();
+      titleEl.title       = book.title || '';
+
+      var authorEl = document.createElement('span');
+      authorEl.className   = 'book-author';
+      authorEl.textContent = (book.author || 'AUTOR DESCONOCIDO').toUpperCase();
+
+      var typeEl = document.createElement('span');
+      var t = (book.type || 'DOC').toLowerCase();
+      typeEl.className   = 'book-type-badge ' + t;
+      typeEl.textContent = t.toUpperCase();
+
+      item.appendChild(titleEl);
+      item.appendChild(authorEl);
+      item.appendChild(typeEl);
+
+      item.onclick = function() { selectBook(idx, item); };
+      container.appendChild(item);
+    })(books[i], i);
+  }
+}
+
+function selectBook(idx, el) {
+  var prev = document.querySelector('.book-item.selected');
+  if (prev) { prev.className = 'book-item'; }
+  el.className  = 'book-item selected';
+  LMD.selectedBook = LMD.library.books[idx];
+  // Hito 3: abrir lector
+}
+
+// ── FETCH ────────────────────────────────────────
+function fetchLibrary() {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', '/api/fetch-library', true);
+
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState !== 4) { return; }
+
+    var loading   = document.getElementById('loading-screen');
+    var statusEl  = document.getElementById('header-status');
+    var countEl   = document.getElementById('footer-count');
+
+    if (xhr.status === 200) {
+      try {
+        var lib = JSON.parse(xhr.responseText);
+        LMD.library = lib;
+
+        var music = lib.music || [];
+        var books = lib.books || [];
+
+        if (loading)  { loading.style.display = 'none'; }
+        if (statusEl) {
+          statusEl.textContent = 'EN LINEA';
+          statusEl.style.color = '#00ff41';
+        }
+        if (countEl) {
+          countEl.textContent = music.length + ' PISTAS / ' + books.length + ' LIBROS';
+        }
+
+        renderMusic(music);
+        renderBooks(books);
+        switchTab('music');
+
+      } catch (e) {
+        showError('JSON INVALIDO');
+      }
+    } else {
+      showError('ERROR ' + xhr.status);
+    }
+  };
+
+  xhr.onerror = function() { showError('FALLA DE RED'); };
+  xhr.send();
+}
+
+function showError(msg) {
+  var loading  = document.getElementById('loading-screen');
+  var statusEl = document.getElementById('header-status');
+  if (loading) {
+    loading.innerHTML =
+      '<span style="color:#ff4141">&#x2717; ' + msg + '</span>' +
+      '<br><br>' +
+      '<span style="font-size:0.8em;color:#555555;letter-spacing:1px">' +
+      'Verifica tu conexion e intenta de nuevo.' +
+      '</span>';
+  }
+  if (statusEl) {
+    statusEl.textContent = 'FUERA DE LINEA';
+    statusEl.style.color = '#ff4141';
+  }
+}
+
+// ── INIT ─────────────────────────────────────────
+window.onload = function() {
+  adjustLayout();
+  fetchLibrary();
+};
+
+window.onresize = function() {
+  adjustLayout();
+};
+</script>
 </body>
 </html>
