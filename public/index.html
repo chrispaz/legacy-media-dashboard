@@ -242,8 +242,11 @@
     }
 
     #reader-header {
-      padding: 10px 14px; border-bottom: 1px solid #00ff41;
-      background: #0a0a0a; position: relative;
+      /* Altura fija — iOS necesita valores explícitos para calcular el hijo */
+      position: absolute; top: 0; left: 0; right: 0; height: 50px;
+      padding: 0 14px; line-height: 50px;
+      border-bottom: 1px solid #00ff41;
+      background: #0a0a0a;
       overflow: hidden; white-space: nowrap;
     }
 
@@ -271,13 +274,18 @@
     }
 
     #reader-content {
-      position: absolute; left: 0; right: 0;
+      /* top: 50px fijo; bottom: 0 o 44px cuando hay nav EPUB */
+      position: absolute; top: 50px; left: 0; right: 0; bottom: 0;
       overflow-y: auto; -webkit-overflow-scrolling: touch;
       background: #0a0a0a;
     }
 
-    /* iframe para PDF */
+    /* Con nav de capítulos visible */
+    #reader-content.with-nav { bottom: 44px; }
+
+    /* iframe PDF: absoluto en 4 lados — iOS requiere esto para height 100% */
     #reader-content iframe {
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
       width: 100%; height: 100%;
       border: none; display: block; background: #fff;
     }
@@ -301,13 +309,12 @@
     #epub-inner em, #epub-inner i { font-style: italic; }
     #epub-inner strong, #epub-inner b { font-weight: bold; color: #aaff44; }
 
-    /* nav capítulos EPUB */
+    /* nav capítulos EPUB — altura fija 44px */
     #reader-nav {
-      display: none; position: absolute; bottom: 0; left: 0; right: 0;
-      border-top: 1px solid #003300; padding: 8px 14px;
+      display: none;
+      position: absolute; bottom: 0; left: 0; right: 0; height: 44px;
+      border-top: 1px solid #003300; padding: 4px 14px;
       background: #0a0a0a;
-      /* tabla para alinear los botones */
-      display: none; width: 100%;
     }
 
     #reader-nav-inner {
@@ -645,9 +652,8 @@ var Player = {
     document.getElementById('player-bar').style.display = 'block';
     adjustLayout();
 
-    // Reproducir
+    // Reproducir — NO llamar load() en iOS: rompe el contexto de gesto
     Player.audio.src = track.url;
-    Player.audio.load();
     Player.audio.play();
     Player.playing = true;
   },
@@ -738,9 +744,8 @@ var Reader = {
     document.getElementById('reader-content').innerHTML = '';
     document.getElementById('reader-nav').style.display = 'none';
 
-    // Abrir
+    // Abrir — layout manejado por CSS (alturas fijas, sin JS)
     document.getElementById('reader-overlay').style.display = 'block';
-    Reader._adjustReaderLayout(false);
 
     if (book.type === 'epub') {
       EpubReader.open(book);
@@ -752,22 +757,12 @@ var Reader = {
   close: function() {
     document.getElementById('reader-overlay').style.display = 'none';
     document.getElementById('reader-content').innerHTML = '';
-    // Detener cualquier iframe para liberar RAM
+    document.getElementById('reader-content').className = ''; // quitar with-nav
+    document.getElementById('reader-nav').style.display = 'none';
     EpubReader.reset();
   },
 
-  // Ajusta reader-content entre header y (nav si EPUB)
-  _adjustReaderLayout: function(hasNav) {
-    var rHeader = document.getElementById('reader-header');
-    var rNav    = document.getElementById('reader-nav');
-    var rContent= document.getElementById('reader-content');
-    if (!rHeader || !rContent) { return; }
-
-    var topH    = rHeader.offsetHeight;
-    var bottomH = hasNav ? rNav.offsetHeight : 0;
-    rContent.style.top    = topH + 'px';
-    rContent.style.bottom = bottomH + 'px';
-  }
+  // Layout manejado por CSS — alturas fijas en px, no JS
 };
 
 // ── LECTOR PDF ────────────────────────────────────────────
@@ -900,16 +895,14 @@ var EpubReader = {
     content.innerHTML = '<div id="epub-inner">' + bodyContent + '</div>';
     content.scrollTop = 0;
 
-    // Mostrar nav de capítulos
+    // Mostrar nav y ajustar content via clase CSS
     var nav = document.getElementById('reader-nav');
     nav.style.display = 'block';
+    document.getElementById('reader-content').className = 'with-nav';
 
     // Actualizar info
     document.getElementById('reader-chapter-info').textContent =
       'CAP ' + (idx + 1) + ' / ' + spine.length;
-
-    // Ajustar layout ahora que el nav está visible
-    Reader._adjustReaderLayout(true);
 
     // Deshabilitar botones en los extremos
     var prevBtn = nav.querySelector('.nav-btn:first-child');
