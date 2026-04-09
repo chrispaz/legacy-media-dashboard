@@ -6,3 +6,6 @@ node_modules
 # Contenido Dreamhost (no va en el repo de Vercel)
 data/
 .htaccess
+
+# Credenciales Dreamhost — nunca al repo
+dreamhost/recipes/config.php

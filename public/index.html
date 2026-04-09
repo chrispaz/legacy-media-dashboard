@@ -338,6 +338,149 @@
       letter-spacing: 2px; vertical-align: middle;
     }
 
+    /* ── RECETAS ─────────────────────────────── */
+    .rcp-panel-hdr {
+      display: table; width: 100%;
+      padding: 8px 14px; border-bottom: 1px solid #003300;
+      background: #0a0a0a;
+    }
+    .rcp-panel-hdr-l { display: table-cell; vertical-align: middle; }
+    .rcp-panel-hdr-r {
+      display: table-cell; vertical-align: middle;
+      text-align: right; width: 1%; white-space: nowrap;
+    }
+    .rcp-hdr-title {
+      font-size: 0.65em; letter-spacing: 4px; color: #005500; text-transform: uppercase;
+    }
+
+    /* Lista de recetas */
+    .rcp-item {
+      display: block; padding: 14px 14px;
+      border-bottom: 1px solid #001a00; cursor: pointer; position: relative;
+    }
+    .rcp-item:active { background: #001500; }
+    .rcp-item-name {
+      display: block; font-size: 0.88em;
+      letter-spacing: 1px; text-transform: uppercase;
+    }
+    .rcp-item-arrow {
+      position: absolute; right: 14px; top: 50%; margin-top: -7px;
+      color: #005500; font-size: 0.82em;
+    }
+    #rcp-list-empty {
+      padding: 40px; text-align: center;
+      color: #005500; font-size: 0.78em; letter-spacing: 2px;
+    }
+
+    /* Secciones dentro del detalle */
+    .rcp-section {
+      padding: 7px 14px; font-size: 0.65em;
+      letter-spacing: 4px; color: #005500;
+      border-bottom: 1px solid #001a00; text-transform: uppercase;
+    }
+
+    /* Checklist rows */
+    .rcp-check-row {
+      display: table; width: 100%; padding: 11px 14px;
+      border-bottom: 1px solid #001100; cursor: pointer;
+    }
+    .rcp-check-row:active { background: #001500; }
+    .rcp-check-box {
+      display: table-cell; width: 28px;
+      vertical-align: middle; font-size: 0.85em; color: #00ff41;
+    }
+    .rcp-check-body { display: table-cell; vertical-align: middle; }
+    .rcp-check-row.checked .rcp-check-body { color: #005500; text-decoration: line-through; }
+    .rcp-ing-qty {
+      display: inline-block; width: 80px;
+      font-size: 0.78em; color: #00aa22; vertical-align: middle;
+    }
+    .rcp-ing-name { font-size: 0.85em; vertical-align: middle; }
+    .rcp-step-num {
+      display: inline-block; color: #005500;
+      font-size: 0.72em; margin-right: 6px; vertical-align: middle;
+    }
+    .rcp-step-text { font-size: 0.85em; vertical-align: middle; }
+
+    /* Notas/comentarios */
+    .rcp-notes {
+      padding: 14px; font-size: 0.82em;
+      color: #00aa22; line-height: 1.7;
+      border-top: 1px solid #001a00;
+    }
+    .rcp-notes-label {
+      display: block; font-size: 0.72em; letter-spacing: 3px;
+      color: #005500; text-transform: uppercase; margin-bottom: 8px;
+    }
+
+    /* Formulario de edición */
+    .rcp-field-label {
+      padding: 7px 14px; font-size: 0.65em;
+      letter-spacing: 4px; color: #005500;
+      border-bottom: 1px solid #001a00; text-transform: uppercase;
+    }
+    .rcp-input {
+      display: block; width: 100%;
+      background: #000; color: #00ff41;
+      border: none; border-bottom: 1px solid #003300;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 0.85em; padding: 11px 14px;
+      outline: none; -webkit-appearance: none;
+    }
+    .rcp-input:focus { border-bottom-color: #00ff41; background: #010e01; }
+
+    /* Fila de ingrediente en el editor */
+    .rcp-ing-row {
+      display: table; width: 100%; border-bottom: 1px solid #001100;
+    }
+    .rcp-ing-qty-cell  { display: table-cell; width: 90px; }
+    .rcp-ing-name-cell { display: table-cell; }
+    .rcp-row-del-cell  { display: table-cell; width: 38px; vertical-align: middle; text-align: center; }
+
+    /* Fila de paso en el editor */
+    .rcp-step-row-edit {
+      display: table; width: 100%; border-bottom: 1px solid #001100;
+    }
+    .rcp-step-num-cell  { display: table-cell; width: 30px; vertical-align: middle;
+                          text-align: center; color: #005500; font-size: 0.72em; }
+    .rcp-step-text-cell { display: table-cell; }
+    .rcp-del-btn {
+      background: transparent; color: #ff4141; border: none;
+      font-size: 1.1em; padding: 8px 4px; cursor: pointer;
+      min-height: 44px; min-width: 36px; line-height: 1;
+      font-family: "Courier New", Courier, monospace; -webkit-appearance: none;
+    }
+    .rcp-add-btn {
+      display: block; width: 100%; padding: 12px 14px;
+      background: transparent; color: #005500;
+      border: none; border-bottom: 1px solid #001a00;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 0.78em; letter-spacing: 2px; text-align: left;
+      cursor: pointer; -webkit-appearance: none;
+    }
+    .rcp-add-btn:active { background: #001500; color: #00ff41; }
+    .rcp-textarea {
+      display: block; width: 100%; background: #000;
+      color: #00aa22; border: none;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 0.82em; padding: 12px 14px; line-height: 1.7;
+      outline: none; resize: none; min-height: 90px; -webkit-appearance: none;
+    }
+    .rcp-textarea:focus { background: #010e01; }
+    .rcp-action-bar {
+      padding: 10px 14px; border-top: 1px solid #003300; background: #0a0a0a;
+    }
+    .rcp-btn {
+      font-family: "Courier New", Courier, monospace;
+      background: transparent; color: #00ff41; border: 1px solid #00ff41;
+      padding: 7px 14px; font-size: 0.75em; letter-spacing: 2px;
+      cursor: pointer; outline: none; -webkit-appearance: none;
+      margin-right: 8px; min-height: 36px;
+    }
+    .rcp-btn:active { background: #00ff41; color: #0a0a0a; }
+    .rcp-btn.danger { color: #ff4141; border-color: #ff4141; }
+    .rcp-btn.danger:active { background: #ff4141; color: #0a0a0a; }
+
     /* ── FOOTER ──────────────────────────────── */
     #lmd-footer {
       position: absolute; bottom: 0; left: 0; right: 0;
@@ -362,8 +505,9 @@
 
   <!-- NAV TABS -->
   <div id="lmd-nav">
-    <button class="tab-btn active" id="tab-music" onclick="switchTab('music')">&#9834; MUSICA</button>
-    <button class="tab-btn"        id="tab-books" onclick="switchTab('books')">&#9632; LIBROS</button>
+    <button class="tab-btn active" id="tab-music"   onclick="switchTab('music')">&#9834; MUSICA</button>
+    <button class="tab-btn"        id="tab-books"   onclick="switchTab('books')">&#9632; LIBROS</button>
+    <button class="tab-btn"        id="tab-recipes" onclick="switchTab('recipes')">&#9998; RECETAS</button>
   </div>
 
   <!-- SCROLL AREA -->
@@ -380,6 +524,56 @@
     <div id="view-books" class="view">
       <div class="section-label" id="books-label">// LIBROS</div>
       <div id="books-list"></div>
+    </div>
+
+    <div id="view-recipes" class="view">
+
+      <!-- LISTA DE RECETAS -->
+      <div id="rcp-list-panel">
+        <div class="rcp-panel-hdr">
+          <div class="rcp-panel-hdr-l">
+            <span class="rcp-hdr-title">// RECETAS</span>
+          </div>
+          <div class="rcp-panel-hdr-r">
+            <button class="ctrl-btn" onclick="RCP.showEdit(null)">+ NUEVA</button>
+          </div>
+        </div>
+        <div id="rcp-recipes-list"></div>
+        <div id="rcp-list-loading" style="padding:30px;text-align:center;color:#005500;font-size:0.78em;letter-spacing:3px">
+          CARGANDO<span class="blink">_</span>
+        </div>
+      </div>
+
+      <!-- DETALLE / CHECKLIST -->
+      <div id="rcp-detail-panel" style="display:none">
+        <div class="rcp-panel-hdr">
+          <div class="rcp-panel-hdr-l">
+            <button class="ctrl-btn" onclick="RCP.showList()">&#9664; LISTA</button>
+          </div>
+          <div class="rcp-panel-hdr-r">
+            <button class="ctrl-btn" onclick="RCP.showEdit(RCP.current.id)">EDITAR</button>
+            &nbsp;
+            <button class="ctrl-btn" style="color:#ff4141;border-color:#ff4141"
+                    onclick="RCP.deleteRecipe(RCP.current.id)">ELIMINAR</button>
+          </div>
+        </div>
+        <div id="rcp-detail-content"></div>
+      </div>
+
+      <!-- EDITOR DE RECETA -->
+      <div id="rcp-edit-panel" style="display:none">
+        <div class="rcp-panel-hdr">
+          <div class="rcp-panel-hdr-l">
+            <button class="ctrl-btn" onclick="RCP.cancelEdit()">&#9664; VOLVER</button>
+          </div>
+          <div class="rcp-panel-hdr-r">
+            <span id="rcp-edit-mode-label"
+                  style="font-size:0.68em;letter-spacing:2px;color:#00aa22"></span>
+          </div>
+        </div>
+        <div id="rcp-edit-content"></div>
+      </div>
+
     </div>
   </div>
 
@@ -480,7 +674,7 @@ function adjustLayout() {
 // ── TABS ─────────────────────────────────────────────────
 function switchTab(tab) {
   LMD.activeTab = tab;
-  var all = ['music','books'];
+  var all = ['music','books','recipes'];
   for (var i = 0; i < all.length; i++) {
     var btn  = document.getElementById('tab-' + all[i]);
     var view = document.getElementById('view-' + all[i]);
@@ -1007,11 +1201,470 @@ function showError(msg) {
   if (statusEl) { statusEl.textContent = 'FUERA DE LINEA'; statusEl.style.color = '#ff4141'; }
 }
 
+// ==========================================================
+// RECETAS — módulo RCP
+// ES5 — var/function, localStorage para checklist, XHR para API
+// ==========================================================
+var RCP = {
+  recipes:  [],    // [{id, name}] — lista cargada del servidor
+  current:  null,  // receta completa abierta actualmente
+  editMode: 'new', // 'new' | 'edit'
+
+  // ── Init ─────────────────────────────────────────────────
+  init: function() {
+    RCP._showPanel('list');
+    RCP.loadList();
+  },
+
+  // ── Carga la lista de recetas desde la API ────────────────
+  loadList: function() {
+    var loadingEl = document.getElementById('rcp-list-loading');
+    var listEl    = document.getElementById('rcp-recipes-list');
+    if (loadingEl) { loadingEl.style.display = 'block'; }
+    if (listEl)    { listEl.innerHTML = ''; }
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/api/recipes', true);
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState !== 4) { return; }
+      if (loadingEl) { loadingEl.style.display = 'none'; }
+      if (xhr.status === 200) {
+        try {
+          RCP.recipes = JSON.parse(xhr.responseText) || [];
+          RCP._renderList();
+        } catch (e) {
+          if (listEl) {
+            listEl.innerHTML = '<div style="padding:20px;color:#ff4141;letter-spacing:2px">ERROR AL PARSEAR RESPUESTA</div>';
+          }
+        }
+      } else {
+        if (listEl) {
+          listEl.innerHTML = '<div style="padding:20px;color:#ff4141;letter-spacing:2px">ERROR ' + xhr.status + '</div>';
+        }
+      }
+    };
+    xhr.onerror = function() {
+      if (loadingEl) { loadingEl.style.display = 'none'; }
+      if (listEl) {
+        listEl.innerHTML = '<div style="padding:20px;color:#ff4141;letter-spacing:2px">FALLA DE RED</div>';
+      }
+    };
+    xhr.send();
+  },
+
+  // ── Renderiza la lista de recetas ─────────────────────────
+  _renderList: function() {
+    var listEl = document.getElementById('rcp-recipes-list');
+    if (!listEl) { return; }
+    listEl.innerHTML = '';
+
+    if (!RCP.recipes.length) {
+      listEl.innerHTML = '<div id="rcp-list-empty">SIN RECETAS — TOCA + NUEVA PARA CREAR LA PRIMERA</div>';
+      return;
+    }
+
+    for (var i = 0; i < RCP.recipes.length; i++) {
+      (function(r) {
+        var item  = document.createElement('div');
+        item.className = 'rcp-item';
+
+        var name  = document.createElement('span');
+        name.className   = 'rcp-item-name';
+        name.textContent = (r.name || '').toUpperCase();
+
+        var arrow = document.createElement('span');
+        arrow.className   = 'rcp-item-arrow';
+        arrow.textContent = '>';
+
+        item.appendChild(name);
+        item.appendChild(arrow);
+        item.onclick = function() { RCP.openRecipe(r.id); };
+        listEl.appendChild(item);
+      })(RCP.recipes[i]);
+    }
+  },
+
+  // ── Abre una receta completa (detalle + checklist) ────────
+  openRecipe: function(id) {
+    var detailEl = document.getElementById('rcp-detail-content');
+    if (detailEl) {
+      detailEl.innerHTML =
+        '<div style="padding:30px;text-align:center;color:#005500;font-size:0.78em;letter-spacing:3px">' +
+        'CARGANDO<span class="blink">_</span></div>';
+    }
+    RCP._showPanel('detail');
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/api/recipes?id=' + id, true);
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState !== 4) { return; }
+      if (xhr.status === 200) {
+        try {
+          RCP.current = JSON.parse(xhr.responseText);
+          RCP._renderDetail();
+        } catch (e) {
+          if (detailEl) {
+            detailEl.innerHTML = '<div style="padding:20px;color:#ff4141">ERROR AL CARGAR RECETA</div>';
+          }
+        }
+      } else {
+        if (detailEl) {
+          detailEl.innerHTML = '<div style="padding:20px;color:#ff4141">ERROR ' + xhr.status + '</div>';
+        }
+      }
+    };
+    xhr.onerror = function() {
+      if (detailEl) {
+        detailEl.innerHTML = '<div style="padding:20px;color:#ff4141">FALLA DE RED</div>';
+      }
+    };
+    xhr.send();
+  },
+
+  // ── Renderiza el detalle con checklist ────────────────────
+  _renderDetail: function() {
+    var r       = RCP.current;
+    var detailEl = document.getElementById('rcp-detail-content');
+    if (!r || !detailEl) { return; }
+
+    var checks = RCP._getChecks(r.id);
+    var html   = '';
+
+    // Título
+    html += '<div style="padding:12px 14px;border-bottom:1px solid #003300">';
+    html += '<span style="font-size:1em;letter-spacing:2px;text-transform:uppercase">';
+    html += RCP._esc(r.name) + '</span></div>';
+
+    // Ingredientes
+    if (r.ingredients && r.ingredients.length) {
+      html += '<div class="rcp-section">INGREDIENTES — toca para marcar</div>';
+      for (var i = 0; i < r.ingredients.length; i++) {
+        var ing     = r.ingredients[i];
+        var ichk    = checks.ingredients[i] || false;
+        html += '<div class="rcp-check-row' + (ichk ? ' checked' : '') + '" onclick="RCP.toggleIng(' + i + ')">';
+        html += '<div class="rcp-check-box">' + (ichk ? '[x]' : '[ ]') + '</div>';
+        html += '<div class="rcp-check-body">';
+        html += '<span class="rcp-ing-qty">'  + RCP._esc(ing.qty  || '') + '</span>';
+        html += '<span class="rcp-ing-name">' + RCP._esc(ing.name || '') + '</span>';
+        html += '</div></div>';
+      }
+    }
+
+    // Pasos
+    if (r.steps && r.steps.length) {
+      html += '<div class="rcp-section">PASOS — toca para marcar</div>';
+      for (var j = 0; j < r.steps.length; j++) {
+        var step = r.steps[j];
+        var schk = checks.steps[j] || false;
+        html += '<div class="rcp-check-row' + (schk ? ' checked' : '') + '" onclick="RCP.toggleStep(' + j + ')">';
+        html += '<div class="rcp-check-box">' + (schk ? '[x]' : '[ ]') + '</div>';
+        html += '<div class="rcp-check-body">';
+        html += '<span class="rcp-step-num">' + (j + 1) + '.</span>';
+        html += '<span class="rcp-step-text">' + RCP._esc(step.text || '') + '</span>';
+        html += '</div></div>';
+      }
+    }
+
+    // Notas / comentarios
+    if (r.comments && r.comments.trim()) {
+      html += '<div class="rcp-notes">';
+      html += '<span class="rcp-notes-label">NOTAS</span>';
+      html += RCP._esc(r.comments).replace(/\n/g, '<br>');
+      html += '</div>';
+    }
+
+    // Botón reiniciar
+    html += '<div class="rcp-action-bar">';
+    html += '<button class="rcp-btn" onclick="RCP.resetChecks()">REINICIAR CHECKLIST</button>';
+    html += '</div>';
+
+    detailEl.innerHTML = html;
+  },
+
+  // ── Toggle ingrediente ────────────────────────────────────
+  toggleIng: function(idx) {
+    var checks = RCP._getChecks(RCP.current.id);
+    checks.ingredients[idx] = !checks.ingredients[idx];
+    RCP._saveChecks(RCP.current.id, checks);
+    RCP._renderDetail();
+  },
+
+  // ── Toggle paso ───────────────────────────────────────────
+  toggleStep: function(idx) {
+    var checks = RCP._getChecks(RCP.current.id);
+    checks.steps[idx] = !checks.steps[idx];
+    RCP._saveChecks(RCP.current.id, checks);
+    RCP._renderDetail();
+  },
+
+  // ── Reinicia todos los checks de la receta actual ─────────
+  resetChecks: function() {
+    if (!RCP.current) { return; }
+    RCP._saveChecks(RCP.current.id, { ingredients: [], steps: [] });
+    RCP._renderDetail();
+  },
+
+  // ── Muestra el formulario de edición ─────────────────────
+  showEdit: function(id) {
+    RCP.editMode = id ? 'edit' : 'new';
+    var modeEl = document.getElementById('rcp-edit-mode-label');
+    if (modeEl) { modeEl.textContent = id ? 'EDITANDO' : 'NUEVA RECETA'; }
+    RCP._renderEditForm(id ? RCP.current : null);
+    RCP._showPanel('edit');
+  },
+
+  // ── Renderiza el formulario de edición ────────────────────
+  _renderEditForm: function(recipe) {
+    var content = document.getElementById('rcp-edit-content');
+    if (!content) { return; }
+    var ings     = recipe ? (recipe.ingredients || []) : [];
+    var steps    = recipe ? (recipe.steps       || []) : [];
+    var comments = recipe ? (recipe.comments    || '') : '';
+    var name     = recipe ? (recipe.name        || '') : '';
+
+    var html = '';
+
+    // Nombre
+    html += '<div class="rcp-field-label">NOMBRE</div>';
+    html += '<input type="text" class="rcp-input" id="rcp-fname" placeholder="NOMBRE DE LA RECETA" value="' + RCP._esc(name) + '">';
+
+    // Ingredientes
+    html += '<div class="rcp-field-label">INGREDIENTES</div>';
+    html += '<div id="rcp-ing-rows">';
+    for (var i = 0; i < ings.length; i++) {
+      html += RCP._ingRowHtml(ings[i].qty, ings[i].name);
+    }
+    html += '</div>';
+    html += '<button class="rcp-add-btn" onclick="RCP.addIngRow()">+ AGREGAR INGREDIENTE</button>';
+
+    // Pasos
+    html += '<div class="rcp-field-label">PASOS</div>';
+    html += '<div id="rcp-step-rows">';
+    for (var j = 0; j < steps.length; j++) {
+      html += RCP._stepRowHtml(j + 1, steps[j].text);
+    }
+    html += '</div>';
+    html += '<button class="rcp-add-btn" onclick="RCP.addStepRow()">+ AGREGAR PASO</button>';
+
+    // Notas
+    html += '<div class="rcp-field-label">NOTAS Y COMENTARIOS</div>';
+    html += '<textarea class="rcp-textarea" id="rcp-fcomments" placeholder="NOTAS, SUSTITUCIONES, TIPS...">' + RCP._esc(comments) + '</textarea>';
+
+    // Acciones
+    html += '<div class="rcp-action-bar">';
+    html += '<button class="rcp-btn" onclick="RCP.save()">GUARDAR</button>';
+    html += '<button class="rcp-btn" onclick="RCP.cancelEdit()">CANCELAR</button>';
+    html += '</div>';
+
+    content.innerHTML = html;
+  },
+
+  // ── Plantillas HTML de filas del editor ───────────────────
+  _ingRowHtml: function(qty, name) {
+    return '<div class="rcp-ing-row">' +
+      '<div class="rcp-ing-qty-cell">' +
+        '<input type="text" class="rcp-input rcp-iqty" placeholder="CANT." value="' + RCP._esc(qty || '') + '">' +
+      '</div>' +
+      '<div class="rcp-ing-name-cell">' +
+        '<input type="text" class="rcp-input rcp-iname" placeholder="INGREDIENTE" value="' + RCP._esc(name || '') + '">' +
+      '</div>' +
+      '<div class="rcp-row-del-cell">' +
+        '<button class="rcp-del-btn" onclick="RCP._delRow(this)">x</button>' +
+      '</div>' +
+    '</div>';
+  },
+
+  _stepRowHtml: function(num, text) {
+    return '<div class="rcp-step-row-edit">' +
+      '<div class="rcp-step-num-cell">' + num + '</div>' +
+      '<div class="rcp-step-text-cell">' +
+        '<input type="text" class="rcp-input rcp-stext" placeholder="DESCRIPCION DEL PASO" value="' + RCP._esc(text || '') + '">' +
+      '</div>' +
+      '<div class="rcp-row-del-cell">' +
+        '<button class="rcp-del-btn" onclick="RCP._delRow(this);RCP._renumberSteps()">x</button>' +
+      '</div>' +
+    '</div>';
+  },
+
+  // ── Agrega fila de ingrediente ────────────────────────────
+  addIngRow: function() {
+    var rows = document.getElementById('rcp-ing-rows');
+    if (!rows) { return; }
+    var tmp = document.createElement('div');
+    tmp.innerHTML = RCP._ingRowHtml('', '');
+    rows.appendChild(tmp.firstChild);
+  },
+
+  // ── Agrega fila de paso ───────────────────────────────────
+  addStepRow: function() {
+    var rows = document.getElementById('rcp-step-rows');
+    if (!rows) { return; }
+    var num = rows.children.length + 1;
+    var tmp = document.createElement('div');
+    tmp.innerHTML = RCP._stepRowHtml(num, '');
+    rows.appendChild(tmp.firstChild);
+  },
+
+  // ── Elimina la fila que contiene el botón ────────────────
+  _delRow: function(btn) {
+    var row = btn.parentNode.parentNode;
+    if (row && row.parentNode) { row.parentNode.removeChild(row); }
+  },
+
+  // ── Renumera los pasos después de eliminar uno ────────────
+  _renumberSteps: function() {
+    var rows = document.getElementById('rcp-step-rows');
+    if (!rows) { return; }
+    var items = rows.children;
+    for (var i = 0; i < items.length; i++) {
+      var numEl = items[i].querySelector('.rcp-step-num-cell');
+      if (numEl) { numEl.textContent = (i + 1); }
+    }
+  },
+
+  // ── Guarda la receta (POST o PUT) ─────────────────────────
+  save: function() {
+    var nameEl = document.getElementById('rcp-fname');
+    var name   = nameEl ? nameEl.value.trim() : '';
+    if (!name) {
+      nameEl.focus();
+      return;
+    }
+
+    // Recoger ingredientes
+    var ingredients = [];
+    var ingRows = document.getElementById('rcp-ing-rows');
+    if (ingRows) {
+      var irows = ingRows.children;
+      for (var i = 0; i < irows.length; i++) {
+        var qtyEl  = irows[i].querySelector('.rcp-iqty');
+        var nmEl   = irows[i].querySelector('.rcp-iname');
+        var n = nmEl ? nmEl.value.trim() : '';
+        if (n) {
+          ingredients.push({
+            qty: qtyEl ? qtyEl.value.trim() : '',
+            name: n,
+            checked: false
+          });
+        }
+      }
+    }
+
+    // Recoger pasos
+    var steps = [];
+    var stepRows = document.getElementById('rcp-step-rows');
+    if (stepRows) {
+      var srows = stepRows.children;
+      for (var j = 0; j < srows.length; j++) {
+        var tEl = srows[j].querySelector('.rcp-stext');
+        var t   = tEl ? tEl.value.trim() : '';
+        if (t) { steps.push({ text: t, checked: false }); }
+      }
+    }
+
+    var commentsEl = document.getElementById('rcp-fcomments');
+    var comments   = commentsEl ? commentsEl.value.trim() : '';
+
+    var data = { name: name, ingredients: ingredients, steps: steps, comments: comments };
+
+    var isEdit  = RCP.editMode === 'edit' && RCP.current && RCP.current.id;
+    var method  = isEdit ? 'PUT'  : 'POST';
+    var urlStr  = isEdit ? '/api/recipes?id=' + RCP.current.id : '/api/recipes';
+
+    var xhr = new XMLHttpRequest();
+    xhr.open(method, urlStr, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState !== 4) { return; }
+      if (xhr.status === 200) {
+        try {
+          var resp = JSON.parse(xhr.responseText);
+          var targetId = isEdit ? RCP.current.id : resp.id;
+          RCP.loadList();           // refrescar lista en background
+          RCP.openRecipe(targetId); // ir al detalle de la receta guardada
+        } catch (e) {
+          RCP.showList();
+          RCP.loadList();
+        }
+      } else {
+        alert('Error al guardar (' + xhr.status + ')');
+      }
+    };
+    xhr.onerror = function() { alert('FALLA DE RED al guardar'); };
+    xhr.send(JSON.stringify(data));
+  },
+
+  // ── Elimina la receta actual ───────────────────────────────
+  deleteRecipe: function(id) {
+    if (!id) { return; }
+    if (!confirm('Eliminar esta receta?')) { return; }
+    var xhr = new XMLHttpRequest();
+    xhr.open('DELETE', '/api/recipes?id=' + id, true);
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState !== 4) { return; }
+      RCP.current = null;
+      RCP.showList();
+      RCP.loadList();
+    };
+    xhr.onerror = function() { alert('FALLA DE RED al eliminar'); };
+    xhr.send();
+  },
+
+  // ── Cancela el editor y vuelve al panel anterior ──────────
+  cancelEdit: function() {
+    if (RCP.editMode === 'edit' && RCP.current) {
+      RCP._showPanel('detail');
+    } else {
+      RCP._showPanel('list');
+    }
+  },
+
+  // ── Muestra el panel de lista ──────────────────────────────
+  showList: function() {
+    RCP._showPanel('list');
+  },
+
+  // ── Controla qué panel es visible dentro de view-recipes ──
+  _showPanel: function(panel) {
+    var panels = ['list', 'detail', 'edit'];
+    for (var k = 0; k < panels.length; k++) {
+      var el = document.getElementById('rcp-' + panels[k] + '-panel');
+      if (el) { el.style.display = (panels[k] === panel) ? 'block' : 'none'; }
+    }
+    var main = document.getElementById('lmd-main');
+    if (main) { main.scrollTop = 0; }
+  },
+
+  // ── localStorage: checks por receta ───────────────────────
+  _getChecks: function(id) {
+    try {
+      var raw = localStorage.getItem('rcp_c_' + id);
+      if (raw) { return JSON.parse(raw); }
+    } catch (e) {}
+    return { ingredients: [], steps: [] };
+  },
+
+  _saveChecks: function(id, checks) {
+    try { localStorage.setItem('rcp_c_' + id, JSON.stringify(checks)); } catch (e) {}
+  },
+
+  // ── Escapado HTML para evitar XSS en innerHTML ────────────
+  _esc: function(str) {
+    return (str || '').toString()
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+};
+
 // ── INIT ────────────────────────────────────────────────────
 window.onload = function() {
   Player.init();
   adjustLayout();
   fetchLibrary();
+  RCP.init();
 };
 
 window.onresize = function() {
