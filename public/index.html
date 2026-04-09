@@ -644,15 +644,21 @@ var Player = {
     var track = LMD.library.music[idx];
     if (!track) { return; }
 
-    Player.trackIndex = idx;
+    // iOS Safari: src + play() PRIMERO antes de cualquier DOM update.
+    // Reflow o repaint entre el gesto y play() rompe la cadena de confianza
+    // silenciosamente — el audio no arranca y no dispara error.
+    Player.audio.src = track.url;
+    Player.audio.play();
 
-    // Resaltar ítem en la lista
+    // UI updates DESPUÉS del play()
+    Player.trackIndex = idx;
+    Player.playing    = true;
+
     var prev = document.querySelector('.music-item.playing');
     if (prev) { prev.className = 'music-item'; }
     var el = document.querySelector('.music-item[data-index="' + idx + '"]');
     if (el) { el.className = 'music-item playing'; }
 
-    // Info en el player bar
     document.getElementById('player-title-text').textContent  = (track.title  || '--').toUpperCase();
     document.getElementById('player-artist-text').textContent = (track.artist || '').toUpperCase();
     document.getElementById('player-current').textContent     = '0:00';
@@ -660,14 +666,8 @@ var Player = {
     document.getElementById('player-progress-fill').style.width = '0%';
     document.getElementById('btn-play-pause').textContent     = '\u23f8 PAUSA';
 
-    // Mostrar player bar
     document.getElementById('player-bar').style.display = 'block';
     adjustLayout();
-
-    // Reproducir — NO llamar load() en iOS: rompe el contexto de gesto
-    Player.audio.src = track.url;
-    Player.audio.play();
-    Player.playing = true;
   },
 
   togglePlay: function() {
