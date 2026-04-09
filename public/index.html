@@ -410,14 +410,34 @@
 
     /* Notas/comentarios */
     .rcp-notes {
-      padding: 18px 14px; font-size: 1.05em;
+      padding: 16px 14px; font-size: 1.05em;
       color: #444444; line-height: 1.85;
       background: #fffef5; border-top: 1px solid #e8e8e8;
     }
-    .rcp-notes-label {
-      display: block; font-size: 0.72em; letter-spacing: 3px;
-      color: #888888; text-transform: uppercase; margin-bottom: 10px;
+    .rcp-notes-hdr {
+      display: table; width: 100%; margin-bottom: 12px;
     }
+    .rcp-notes-label {
+      display: table-cell; vertical-align: middle;
+      font-size: 0.72em; letter-spacing: 3px;
+      color: #888888; text-transform: uppercase;
+    }
+    .rcp-notes-edit-cell {
+      display: table-cell; text-align: right;
+      vertical-align: middle; width: 1%; white-space: nowrap;
+    }
+    .rcp-notes-edit-btn {
+      font-family: "Courier New", Courier, monospace;
+      background: transparent; color: #888888;
+      border: 1px solid #cccccc;
+      padding: 4px 10px; font-size: 0.75em; letter-spacing: 1px;
+      cursor: pointer; outline: none; -webkit-appearance: none;
+    }
+    .rcp-notes-edit-btn:active { background: #1a1a1a; color: #ffffff; border-color: #1a1a1a; }
+    .rcp-notes-text { font-size: 1em; color: #444444; line-height: 1.85; }
+    .rcp-notes-empty { font-size: 0.9em; color: #bbbbbb; font-style: italic; }
+    .rcp-notes-save-bar { padding: 10px 0 2px; }
+    .rcp-notes-save-bar .rcp-btn { min-height: 38px; padding: 8px 16px; }
 
     /* Formulario de edición */
     .rcp-field-label {
@@ -1375,15 +1395,32 @@ var RCP = {
       }
     }
 
-    // Notas / comentarios
-    if (r.comments && r.comments.trim()) {
-      html += '<div class="rcp-notes">';
-      html += '<span class="rcp-notes-label">NOTAS</span>';
-      html += RCP._esc(r.comments).replace(/\n/g, '<br>');
-      html += '</div>';
+    // Notas — siempre visibles, editables inline
+    var notesText = (r.comments || '').trim();
+    html += '<div class="rcp-notes">';
+    html += '<div class="rcp-notes-hdr">';
+    html += '<span class="rcp-notes-label">NOTAS</span>';
+    html += '<span class="rcp-notes-edit-cell">';
+    html += '<button class="rcp-notes-edit-btn" onclick="RCP.editNotes()">EDITAR</button>';
+    html += '</span></div>';
+    // Modo lectura
+    html += '<div id="rcp-notes-display">';
+    if (notesText) {
+      html += '<span class="rcp-notes-text">' + RCP._esc(notesText).replace(/\n/g, '<br>') + '</span>';
+    } else {
+      html += '<span class="rcp-notes-empty">Sin notas. Toca EDITAR para agregar.</span>';
     }
+    html += '</div>';
+    // Modo edición (oculto por defecto)
+    html += '<div id="rcp-notes-editor" style="display:none">';
+    html += '<textarea class="rcp-textarea" id="rcp-notes-ta" rows="5">' + RCP._esc(notesText) + '</textarea>';
+    html += '<div class="rcp-notes-save-bar">';
+    html += '<button class="rcp-btn" onclick="RCP.saveNotes()">GUARDAR</button>';
+    html += '<button class="rcp-btn" onclick="RCP.cancelNotes()">CANCELAR</button>';
+    html += '</div></div>';
+    html += '</div>';
 
-    // Botón reiniciar
+    // Botón reiniciar checklist
     html += '<div class="rcp-action-bar">';
     html += '<button class="rcp-btn" onclick="RCP.resetChecks()">REINICIAR CHECKLIST</button>';
     html += '</div>';
@@ -1618,6 +1655,52 @@ var RCP = {
     };
     xhr.onerror = function() { alert('FALLA DE RED al eliminar'); };
     xhr.send();
+  },
+
+  // ── Edición inline de notas ───────────────────────────────
+  editNotes: function() {
+    var display = document.getElementById('rcp-notes-display');
+    var editor  = document.getElementById('rcp-notes-editor');
+    var ta      = document.getElementById('rcp-notes-ta');
+    if (display) { display.style.display = 'none'; }
+    if (editor)  { editor.style.display  = 'block'; }
+    if (ta)      { ta.focus(); }
+  },
+
+  cancelNotes: function() {
+    var display = document.getElementById('rcp-notes-display');
+    var editor  = document.getElementById('rcp-notes-editor');
+    if (display) { display.style.display = 'block'; }
+    if (editor)  { editor.style.display  = 'none'; }
+  },
+
+  saveNotes: function() {
+    var ta = document.getElementById('rcp-notes-ta');
+    if (!ta) { return; }
+    var newComments = ta.value;
+    var r = RCP.current;
+
+    var data = {
+      name:        r.name,
+      ingredients: r.ingredients,
+      steps:       r.steps,
+      comments:    newComments
+    };
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('PUT', '/api/recipes?id=' + r.id, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState !== 4) { return; }
+      if (xhr.status === 200) {
+        RCP.current.comments = newComments;
+        RCP._renderDetail(); // re-renderiza con el texto actualizado
+      } else {
+        alert('Error al guardar notas (' + xhr.status + ')');
+      }
+    };
+    xhr.onerror = function() { alert('FALLA DE RED al guardar notas'); };
+    xhr.send(JSON.stringify(data));
   },
 
   // ── Cancela el editor y vuelve al panel anterior ──────────
