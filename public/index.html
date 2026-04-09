@@ -956,9 +956,25 @@ function fetchLibrary() {
     if (xhr.status === 200) {
       try {
         var lib   = JSON.parse(xhr.responseText);
-        LMD.library = lib;
+
+        // Reescribir URLs de Dreamhost a /media/ (mismo origen que la app).
+        // iOS 9 Safari bloquea audio/video cross-origin sin importar CORS.
+        // Vercel reescribe /media/* → ldm.naitcorp.com/* en el edge.
         var music = lib.music || [];
         var books = lib.books || [];
+        var i;
+        for (i = 0; i < music.length; i++) {
+          if (music[i].url) {
+            music[i].url = music[i].url.replace('https://ldm.naitcorp.com/', '/media/');
+          }
+        }
+        for (i = 0; i < books.length; i++) {
+          if (books[i].url) {
+            books[i].url = books[i].url.replace('https://ldm.naitcorp.com/', '/media/');
+          }
+        }
+
+        LMD.library = lib;
 
         if (loading)  { loading.style.display = 'none'; }
         if (statusEl) { statusEl.textContent = 'EN LINEA'; statusEl.style.color = '#00ff41'; }

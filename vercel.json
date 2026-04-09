@@ -4,5 +4,11 @@
     "api/*.js": {
       "maxDuration": 10
     }
-  }
+  },
+  "rewrites": [
+    {
+      "source": "/media/:path*",
+      "destination": "https://ldm.naitcorp.com/:path*"
+    }
+  ]
 }
