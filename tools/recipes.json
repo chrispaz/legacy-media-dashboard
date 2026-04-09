@@ -1,0 +1,45 @@
+[
+  {
+    "name": "Paella Valenciana",
+    "ingredients": [
+      { "qty": "2 tazas",  "name": "arroz bomba" },
+      { "qty": "500g",     "name": "pollo troceado" },
+      { "qty": "300g",     "name": "conejo troceado" },
+      { "qty": "1L",       "name": "caldo de pollo caliente" },
+      { "qty": "1 lata",   "name": "tomate triturado" },
+      { "qty": "100g",     "name": "judías verdes" },
+      { "qty": "1 cdta",   "name": "pimentón dulce" },
+      { "qty": "unas",     "name": "hebras de azafrán" },
+      { "qty": "al gusto", "name": "sal y aceite de oliva" }
+    ],
+    "steps": [
+      "Calentar aceite en la paellera y dorar el pollo y el conejo a fuego medio-alto.",
+      "Apartar la carne y sofreír las judías verdes hasta que estén tiernas.",
+      "Agregar el tomate triturado y el pimentón, sofreír 2 minutos sin que se queme.",
+      "Incorporar el arroz y sofreír 1-2 minutos removiendo bien.",
+      "Verter el caldo caliente con el azafrán, distribuir la carne y subir el fuego.",
+      "Cocinar 18-20 minutos SIN REVOLVER. Bajar el fuego a la mitad pasados 10 min.",
+      "Retirar del fuego, cubrir con papel de aluminio y dejar reposar 5 minutos."
+    ],
+    "comments": "Usar aceite de oliva extra virgen, nunca de canola. El socarrat (capa tostada del fondo) es lo mejor — no mover el arroz. Si no hay paellera, una sartén amplia y plana funciona."
+  },
+  {
+    "name": "Guacamole clásico",
+    "ingredients": [
+      { "qty": "3",        "name": "aguacates maduros" },
+      { "qty": "1",        "name": "limón (jugo)" },
+      { "qty": "1/2",      "name": "cebolla morada picada fina" },
+      { "qty": "2",        "name": "chiles serranos picados (sin semillas)" },
+      { "qty": "1/4 taza", "name": "cilantro fresco picado" },
+      { "qty": "al gusto", "name": "sal" }
+    ],
+    "steps": [
+      "Cortar los aguacates a la mitad, retirar el hueso y vaciar la pulpa en un tazón.",
+      "Aplastar con un tenedor — dejar textura gruesa, no pasta.",
+      "Agregar el jugo de limón inmediatamente para evitar que se oxide.",
+      "Incorporar cebolla, chile y cilantro. Mezclar con cuchara.",
+      "Sazonar con sal. Probar y ajustar limón o sal."
+    ],
+    "comments": "El aguacate debe ceder fácilmente al presionar la cáscara. Listo en 5 minutos. Cubrir con papel film tocando la superficie para conservar — aguanta 2 horas máximo."
+  }
+]
