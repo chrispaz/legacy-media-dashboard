@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LMD Audio Test</title>
+  <style>
+    body { background:#0a0a0a; color:#00ff41; font-family:monospace; padding:20px; }
+    button { display:block; width:100%; padding:20px; margin:10px 0;
+             font-family:monospace; font-size:1em; letter-spacing:2px;
+             background:transparent; color:#00ff41; border:1px solid #00ff41;
+             cursor:pointer; -webkit-appearance:none; }
+    button:active { background:#00ff41; color:#0a0a0a; }
+    #log { font-size:0.75em; margin-top:20px; color:#00aa22; }
+    .ok  { color:#00ff41; }
+    .err { color:#ff4141; }
+  </style>
+</head>
+<body>
+  <h3>[ LMD AUDIO TEST ]</h3>
+
+  <!-- TEST 1: Audio tag en HTML con src directo a Dreamhost -->
+  <p style="font-size:0.7em;color:#007700">TEST 1 — audio HTML + Dreamhost directo</p>
+  <audio id="audio1" controls preload="none"
+         playsinline webkit-playsinline
+         style="width:100%;margin-bottom:10px">
+    <source src="https://ldm.naitcorp.com/music/imagine.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- TEST 2: Audio tag en HTML con src via /media/ proxy -->
+  <p style="font-size:0.7em;color:#007700">TEST 2 — audio HTML + proxy /media/</p>
+  <audio id="audio2" controls preload="none"
+         playsinline webkit-playsinline
+         style="width:100%;margin-bottom:10px">
+    <source src="/media/music/imagine.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- TEST 3: JS play() desde boton — misma logica que la app -->
+  <p style="font-size:0.7em;color:#007700">TEST 3 — JS play() desde boton</p>
+  <button onclick="testPlay()">TOCAR CON JS (tap aqui)</button>
+
+  <div id="log">Toca los controles o el boton y observa que pasa...</div>
+
+  <script>
+    var logEl = document.getElementById('log');
+
+    function log(msg, ok) {
+      var line = document.createElement('div');
+      line.className = ok ? 'ok' : 'err';
+      line.textContent = new Date().toLocaleTimeString() + ' — ' + msg;
+      logEl.insertBefore(line, logEl.firstChild);
+    }
+
+    // Eventos audio1
+    var a1 = document.getElementById('audio1');
+    a1.onplay    = function() { log('TEST1: play OK', true); };
+    a1.onerror   = function() { log('TEST1: error cod=' + (a1.error ? a1.error.code : '?'), false); };
+    a1.oncanplay = function() { log('TEST1: canplay', true); };
+
+    // Eventos audio2
+    var a2 = document.getElementById('audio2');
+    a2.onplay    = function() { log('TEST2: play OK', true); };
+    a2.onerror   = function() { log('TEST2: error cod=' + (a2.error ? a2.error.code : '?'), false); };
+    a2.oncanplay = function() { log('TEST2: canplay', true); };
+
+    // TEST 3 — igual que la app
+    function testPlay() {
+      var a = document.createElement('audio');
+      a.setAttribute('preload', 'none');
+      a.setAttribute('playsinline', '');
+      a.setAttribute('webkit-playsinline', '');
+      a.style.display = 'none';
+      document.body.appendChild(a);
+
+      a.onerror = function() {
+        log('TEST3: error cod=' + (a.error ? a.error.code : '?'), false);
+      };
+      a.onplay = function() { log('TEST3: play OK!', true); };
+
+      a.src = '/media/music/imagine.mp3';
+      a.play();
+      log('TEST3: play() llamado', true);
+    }
+  </script>
+</body>
+</html>
