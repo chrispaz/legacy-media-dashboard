@@ -21,11 +21,11 @@
     html, body {
       height: 100%;
       overflow: hidden;
-      background: #0a0a0a;
+      background: #1a1a1a;
     }
 
     body {
-      color: #00ff41;
+      color: #111111;
       font-family: "Courier New", Courier, monospace;
       font-size: 14px;
       line-height: 1.5;
@@ -39,48 +39,49 @@
 
     /* ── HEADER ──────────────────────────────── */
     #lmd-header {
-      background: #0a0a0a;
-      border-bottom: 2px solid #00ff41;
+      background: #1a1a1a;
+      border-bottom: 2px solid #111111;
       padding: 8px 14px;
       position: relative;
     }
 
-    #header-logo   { font-size: 1.05em; letter-spacing: 5px; font-weight: bold; }
-    #header-status { font-size: 0.68em; color: #00cc33; margin-left: 10px; letter-spacing: 2px; }
+    #header-logo   { font-size: 1.05em; letter-spacing: 5px; font-weight: bold; color: #ffffff; }
+    #header-status { font-size: 0.68em; color: #aaaaaa; margin-left: 10px; letter-spacing: 2px; }
     #header-clock  {
       position: absolute; right: 14px; top: 50%; margin-top: -9px;
-      font-size: 0.78em; letter-spacing: 2px; color: #00aa22;
+      font-size: 0.78em; letter-spacing: 2px; color: #aaaaaa;
     }
 
     /* ── NAV TABS ────────────────────────────── */
-    #lmd-nav { background: #0a0a0a; border-bottom: 1px solid #00ff41; }
+    #lmd-nav { background: #ffffff; border-bottom: 2px solid #1a1a1a; }
 
     .tab-btn {
       display: inline-block;
-      padding: 10px 22px;
+      padding: 10px 20px;
       font-family: "Courier New", Courier, monospace;
-      font-size: 0.8em; letter-spacing: 3px;
-      color: #00ff41; background: transparent;
-      border: none; border-right: 1px solid #003300;
+      font-size: 0.78em; letter-spacing: 2px;
+      color: #555555; background: transparent;
+      border: none; border-right: 1px solid #e0e0e0;
       cursor: pointer; text-transform: uppercase;
       outline: none; -webkit-appearance: none; min-height: 44px;
     }
 
     .tab-btn.active {
-      background: #00ff41; color: #0a0a0a;
-      font-weight: bold; border-right-color: #00ff41;
+      background: #1a1a1a; color: #ffffff;
+      font-weight: bold;
     }
 
     /* ── SCROLL AREA ─────────────────────────── */
     #lmd-main {
       position: absolute; left: 0; right: 0;
+      background: #f5f5f0;
       overflow-y: auto; -webkit-overflow-scrolling: touch;
     }
 
     /* ── LOADING ─────────────────────────────── */
     #loading-screen {
       text-align: center; padding: 60px 20px;
-      letter-spacing: 3px; font-size: 0.85em; color: #00aa22;
+      letter-spacing: 3px; font-size: 0.85em; color: #888888;
     }
 
     .blink {
@@ -97,62 +98,64 @@
 
     .section-label {
       padding: 7px 14px; font-size: 0.65em;
-      letter-spacing: 4px; color: #005500;
-      border-bottom: 1px solid #001a00; text-transform: uppercase;
+      letter-spacing: 4px; color: #888888;
+      border-bottom: 1px solid #e0e0e0;
+      text-transform: uppercase; background: #f5f5f0;
     }
 
     /* ── MÚSICA: LISTA ───────────────────────── */
     .music-item {
       display: block; padding: 13px 14px;
-      border-bottom: 1px solid #001a00;
+      border-bottom: 1px solid #e8e8e8;
+      background: #ffffff;
       cursor: pointer; position: relative; overflow: hidden;
     }
 
-    .music-item:active  { background: #001500; }
+    .music-item:active  { background: #f0f0ec; }
     .music-item.selected {
-      background: #001a00; border-left: 3px solid #00ff41;
+      background: #f0f0ec; border-left: 3px solid #1a1a1a;
     }
-    .music-item.playing { border-left: 3px solid #00ff41; background: #001a00; }
+    .music-item.playing { border-left: 3px solid #1a1a1a; background: #f0f0ec; }
 
     .music-num {
-      display: inline-block; color: #005500;
+      display: inline-block; color: #bbbbbb;
       font-size: 0.72em; width: 26px;
       text-align: right; margin-right: 10px; vertical-align: middle;
     }
 
     .music-title {
-      display: inline-block; font-size: 0.88em;
+      display: inline-block; font-size: 0.88em; color: #111111;
       letter-spacing: 1px; text-transform: uppercase; vertical-align: middle;
     }
 
     .music-meta {
-      font-size: 0.68em; color: #00aa22;
+      font-size: 0.68em; color: #666666;
       margin-top: 4px; padding-left: 36px; letter-spacing: 1px;
     }
 
     .music-duration {
       position: absolute; right: 14px; top: 14px;
-      font-size: 0.72em; color: #005500; letter-spacing: 1px;
+      font-size: 0.72em; color: #bbbbbb; letter-spacing: 1px;
     }
 
     /* ── LIBROS: GRID ────────────────────────── */
-    #books-list { padding: 12px; }
+    #books-list { padding: 12px; background: #f5f5f0; }
 
     #books-list:after { content: ""; display: table; clear: both; }
 
     .book-item {
       float: left; width: 48%; margin-right: 2%;
-      margin-bottom: 12px; border: 1px solid #003300;
-      padding: 8px; cursor: pointer;
+      margin-bottom: 12px; border: 1px solid #d8d8d8;
+      padding: 8px; cursor: pointer; background: #ffffff;
     }
 
     .book-item:nth-child(2n) { margin-right: 0; }
-    .book-item:active    { background: #001500; }
-    .book-item.selected  { border-color: #00ff41; background: #001a00; }
+    .book-item:active    { background: #f0f0ec; }
+    .book-item.selected  { border-color: #1a1a1a; background: #f0f0ec; }
 
     .book-cover-wrap {
       width: 100%; height: 130px;
-      background: #001100; border: 1px solid #002200;
+      background: #f0f0ec; border: 1px solid #e0e0e0;
       display: block; text-align: center; overflow: hidden; margin-bottom: 7px;
     }
 
@@ -162,35 +165,35 @@
 
     .book-cover-placeholder {
       width: 100%; height: 130px;
-      background: #001100; border: 1px solid #002200;
+      background: #f0f0ec; border: 1px solid #e0e0e0;
       display: block; text-align: center; line-height: 130px;
-      font-size: 2.2em; color: #003300; margin-bottom: 7px;
+      font-size: 2.2em; color: #cccccc; margin-bottom: 7px;
     }
 
     .book-title {
-      display: block; font-size: 0.78em; text-transform: uppercase;
-      letter-spacing: 1px; margin-bottom: 3px;
+      display: block; font-size: 0.78em; color: #111111;
+      text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px;
       overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
     }
 
     .book-author {
-      display: block; font-size: 0.65em; color: #00aa22; margin-bottom: 5px;
+      display: block; font-size: 0.65em; color: #666666; margin-bottom: 5px;
       overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
     }
 
     .book-type-badge {
-      display: inline-block; border: 1px solid #00ff41;
-      padding: 1px 5px; font-size: 0.6em; letter-spacing: 2px;
+      display: inline-block; border: 1px solid #333333;
+      color: #333333; padding: 1px 5px; font-size: 0.6em; letter-spacing: 2px;
     }
 
-    .book-type-badge.epub { border-color: #00aaff; color: #00aaff; }
-    .book-type-badge.pdf  { border-color: #00ff41; color: #00ff41; }
+    .book-type-badge.epub { border-color: #1d4ed8; color: #1d4ed8; }
+    .book-type-badge.pdf  { border-color: #333333; color: #333333; }
 
     /* ── PLAYER BAR ──────────────────────────── */
     #player-bar {
       display: none;
       position: absolute; left: 0; right: 0;
-      background: #0a0a0a; border-top: 2px solid #00ff41;
+      background: #1a1a1a; border-top: 2px solid #333333;
       z-index: 10;
     }
 
@@ -199,91 +202,92 @@
       overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
     }
 
-    #player-title-text  { font-size: 0.82em; letter-spacing: 1px; text-transform: uppercase; }
-    #player-artist-text { font-size: 0.65em; color: #00aa22; margin-left: 8px; letter-spacing: 1px; }
+    #player-title-text  { font-size: 0.82em; letter-spacing: 1px; text-transform: uppercase; color: #ffffff; }
+    #player-artist-text { font-size: 0.65em; color: #aaaaaa; margin-left: 8px; letter-spacing: 1px; }
 
     #player-controls {
       padding: 4px 14px;
-      /* display: table para iOS 9 */
       display: table; width: 100%;
     }
 
-    #player-buttons { display: table-cell; vertical-align: middle; width: 1%; white-space: nowrap; }
-    #player-time    { display: table-cell; vertical-align: middle; width: 1%; white-space: nowrap; text-align: right; font-size: 0.7em; color: #007700; letter-spacing: 1px; padding-left: 8px; }
+    #player-buttons   { display: table-cell; vertical-align: middle; width: 1%; white-space: nowrap; }
+    #player-time      { display: table-cell; vertical-align: middle; width: 1%; white-space: nowrap; text-align: right; font-size: 0.7em; color: #888888; letter-spacing: 1px; padding-left: 8px; }
     #player-prog-cell { display: table-cell; vertical-align: middle; padding: 0 8px; }
 
+    /* ctrl-btn default: fondo claro (para headers de RCP) */
     .ctrl-btn {
       font-family: "Courier New", Courier, monospace;
-      background: transparent; color: #00ff41;
-      border: 1px solid #00ff41;
+      background: transparent; color: #333333;
+      border: 1px solid #cccccc;
       padding: 4px 8px; font-size: 0.75em; letter-spacing: 1px;
       cursor: pointer; outline: none; -webkit-appearance: none;
       margin-right: 4px; min-height: 32px; min-width: 36px;
     }
+    .ctrl-btn:active { background: #1a1a1a; color: #ffffff; border-color: #1a1a1a; }
 
-    .ctrl-btn:active { background: #00ff41; color: #0a0a0a; }
+    /* ctrl-btn en player bar: fondo oscuro → colores invertidos */
+    #player-bar .ctrl-btn {
+      color: #ffffff; border-color: #555555;
+    }
+    #player-bar .ctrl-btn:active { background: #ffffff; color: #1a1a1a; }
 
     #player-progress-track {
       width: 100%; height: 10px;
-      background: #001a00; border: 1px solid #003300;
+      background: #333333; border: 1px solid #444444;
       cursor: pointer; position: relative;
     }
 
     #player-progress-fill {
       height: 100%; width: 0%;
-      background: #00ff41; position: absolute; top: 0; left: 0;
+      background: #ffffff; position: absolute; top: 0; left: 0;
     }
 
     /* ── READER OVERLAY ──────────────────────── */
     #reader-overlay {
       display: none;
       position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      z-index: 50; background: #0a0a0a;
+      z-index: 50; background: #ffffff;
     }
 
     #reader-header {
-      /* Altura fija — iOS necesita valores explícitos para calcular el hijo */
       position: absolute; top: 0; left: 0; right: 0; height: 50px;
       padding: 0 14px; line-height: 50px;
-      border-bottom: 1px solid #00ff41;
-      background: #0a0a0a;
+      border-bottom: 1px solid #e0e0e0;
+      background: #ffffff;
       overflow: hidden; white-space: nowrap;
     }
 
     #btn-close-reader {
       font-family: "Courier New", Courier, monospace;
-      background: transparent; color: #ff4141;
-      border: 1px solid #ff4141; padding: 4px 10px;
+      background: transparent; color: #cc2222;
+      border: 1px solid #cc2222; padding: 4px 10px;
       font-size: 0.75em; letter-spacing: 2px;
       cursor: pointer; outline: none; -webkit-appearance: none;
       vertical-align: middle;
     }
 
-    #btn-close-reader:active { background: #ff4141; color: #0a0a0a; }
+    #btn-close-reader:active { background: #cc2222; color: #ffffff; }
 
     #reader-title-text {
-      display: inline-block; font-size: 0.82em;
+      display: inline-block; font-size: 0.82em; color: #111111;
       letter-spacing: 2px; text-transform: uppercase;
       margin-left: 10px; vertical-align: middle;
     }
 
     #reader-badge {
       position: absolute; right: 14px; top: 50%; margin-top: -11px;
-      border: 1px solid #00ff41; padding: 2px 6px;
+      border: 1px solid #333333; color: #333333; padding: 2px 6px;
       font-size: 0.65em; letter-spacing: 2px;
     }
 
     #reader-content {
-      /* top: 50px fijo; bottom: 0 o 44px cuando hay nav EPUB */
       position: absolute; top: 50px; left: 0; right: 0; bottom: 0;
       overflow-y: auto; -webkit-overflow-scrolling: touch;
-      background: #0a0a0a;
+      background: #ffffff;
     }
 
-    /* Con nav de capítulos visible */
     #reader-content.with-nav { bottom: 44px; }
 
-    /* iframe PDF: absoluto en 4 lados — iOS requiere esto para height 100% */
     #reader-content iframe {
       position: absolute; top: 0; left: 0; right: 0; bottom: 0;
       width: 100%; height: 100%;
@@ -292,57 +296,55 @@
 
     /* contenedor EPUB */
     #epub-inner {
-      padding: 20px; color: #00ff41;
-      font-family: "Courier New", Courier, monospace;
-      font-size: 15px; line-height: 1.9;
+      padding: 20px 24px; color: #111111;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 16px; line-height: 1.9;
     }
 
     #epub-inner h1, #epub-inner h2, #epub-inner h3,
     #epub-inner h4, #epub-inner h5, #epub-inner h6 {
-      color: #00ff41; letter-spacing: 2px;
-      margin: 24px 0 12px; text-transform: uppercase;
+      color: #111111; font-family: "Courier New", Courier, monospace;
+      letter-spacing: 1px; margin: 24px 0 12px;
     }
 
     #epub-inner p    { margin-bottom: 14px; }
-    #epub-inner a    { color: #00aaff; text-decoration: none; }
+    #epub-inner a    { color: #1d4ed8; text-decoration: none; }
     #epub-inner img  { max-width: 100%; height: auto; margin: 10px 0; }
     #epub-inner em, #epub-inner i { font-style: italic; }
-    #epub-inner strong, #epub-inner b { font-weight: bold; color: #aaff44; }
+    #epub-inner strong, #epub-inner b { font-weight: bold; }
 
-    /* nav capítulos EPUB — altura fija 44px */
+    /* nav capítulos EPUB */
     #reader-nav {
       display: none;
       position: absolute; bottom: 0; left: 0; right: 0; height: 44px;
-      border-top: 1px solid #003300; padding: 4px 14px;
-      background: #0a0a0a;
+      border-top: 1px solid #e0e0e0; padding: 4px 14px;
+      background: #ffffff;
     }
 
-    #reader-nav-inner {
-      display: table; width: 100%;
-    }
+    #reader-nav-inner { display: table; width: 100%; }
 
     .nav-btn {
       font-family: "Courier New", Courier, monospace;
-      background: transparent; color: #00ff41;
-      border: 1px solid #003300; padding: 6px 12px;
+      background: transparent; color: #333333;
+      border: 1px solid #e0e0e0; padding: 6px 12px;
       font-size: 0.72em; letter-spacing: 1px;
       cursor: pointer; outline: none; -webkit-appearance: none;
       display: table-cell; text-align: center;
     }
 
-    .nav-btn:active { background: #001a00; }
+    .nav-btn:active { background: #f0f0ec; }
 
     #reader-chapter-info {
       display: table-cell; text-align: center;
-      font-size: 0.68em; color: #005500;
+      font-size: 0.68em; color: #888888;
       letter-spacing: 2px; vertical-align: middle;
     }
 
     /* ── RECETAS ─────────────────────────────── */
     .rcp-panel-hdr {
       display: table; width: 100%;
-      padding: 8px 14px; border-bottom: 1px solid #003300;
-      background: #0a0a0a;
+      padding: 8px 14px; border-bottom: 1px solid #e0e0e0;
+      background: #ffffff;
     }
     .rcp-panel-hdr-l { display: table-cell; vertical-align: middle; }
     .rcp-panel-hdr-r {
@@ -350,88 +352,93 @@
       text-align: right; width: 1%; white-space: nowrap;
     }
     .rcp-hdr-title {
-      font-size: 0.65em; letter-spacing: 4px; color: #005500; text-transform: uppercase;
+      font-size: 0.65em; letter-spacing: 4px; color: #888888; text-transform: uppercase;
     }
 
     /* Lista de recetas */
     .rcp-item {
-      display: block; padding: 14px 14px;
-      border-bottom: 1px solid #001a00; cursor: pointer; position: relative;
+      display: block; padding: 15px 14px;
+      border-bottom: 1px solid #e8e8e8;
+      background: #ffffff; cursor: pointer; position: relative;
     }
-    .rcp-item:active { background: #001500; }
+    .rcp-item:active { background: #f0f0ec; }
     .rcp-item-name {
-      display: block; font-size: 0.88em;
+      display: block; font-size: 0.88em; color: #111111;
       letter-spacing: 1px; text-transform: uppercase;
     }
     .rcp-item-arrow {
       position: absolute; right: 14px; top: 50%; margin-top: -7px;
-      color: #005500; font-size: 0.82em;
+      color: #cccccc; font-size: 0.82em;
     }
     #rcp-list-empty {
       padding: 40px; text-align: center;
-      color: #005500; font-size: 0.78em; letter-spacing: 2px;
+      color: #aaaaaa; font-size: 0.78em; letter-spacing: 2px;
     }
 
     /* Secciones dentro del detalle */
     .rcp-section {
       padding: 7px 14px; font-size: 0.65em;
-      letter-spacing: 4px; color: #005500;
-      border-bottom: 1px solid #001a00; text-transform: uppercase;
+      letter-spacing: 4px; color: #888888;
+      border-bottom: 1px solid #e8e8e8;
+      text-transform: uppercase; background: #f5f5f0;
     }
 
     /* Checklist rows */
     .rcp-check-row {
-      display: table; width: 100%; padding: 11px 14px;
-      border-bottom: 1px solid #001100; cursor: pointer;
+      display: table; width: 100%; padding: 12px 14px;
+      border-bottom: 1px solid #eeeeee;
+      background: #ffffff; cursor: pointer;
     }
-    .rcp-check-row:active { background: #001500; }
+    .rcp-check-row:active { background: #f5f5f0; }
     .rcp-check-box {
-      display: table-cell; width: 28px;
-      vertical-align: middle; font-size: 0.85em; color: #00ff41;
+      display: table-cell; width: 32px;
+      vertical-align: middle; font-size: 0.85em; color: #333333;
     }
     .rcp-check-body { display: table-cell; vertical-align: middle; }
-    .rcp-check-row.checked .rcp-check-body { color: #005500; text-decoration: line-through; }
+    .rcp-check-row.checked .rcp-check-body { color: #bbbbbb; text-decoration: line-through; }
     .rcp-ing-qty {
       display: inline-block; width: 80px;
-      font-size: 0.78em; color: #00aa22; vertical-align: middle;
+      font-size: 0.78em; color: #666666; vertical-align: middle;
     }
-    .rcp-ing-name { font-size: 0.85em; vertical-align: middle; }
+    .rcp-ing-name { font-size: 0.88em; color: #111111; vertical-align: middle; }
     .rcp-step-num {
-      display: inline-block; color: #005500;
+      display: inline-block; color: #aaaaaa;
       font-size: 0.72em; margin-right: 6px; vertical-align: middle;
     }
-    .rcp-step-text { font-size: 0.85em; vertical-align: middle; }
+    .rcp-step-text { font-size: 0.88em; color: #111111; vertical-align: middle; }
 
     /* Notas/comentarios */
     .rcp-notes {
-      padding: 14px; font-size: 0.82em;
-      color: #00aa22; line-height: 1.7;
-      border-top: 1px solid #001a00;
+      padding: 16px 14px; font-size: 0.85em;
+      color: #555555; line-height: 1.8;
+      background: #fffef5; border-top: 1px solid #e8e8e8;
     }
     .rcp-notes-label {
       display: block; font-size: 0.72em; letter-spacing: 3px;
-      color: #005500; text-transform: uppercase; margin-bottom: 8px;
+      color: #888888; text-transform: uppercase; margin-bottom: 8px;
     }
 
     /* Formulario de edición */
     .rcp-field-label {
       padding: 7px 14px; font-size: 0.65em;
-      letter-spacing: 4px; color: #005500;
-      border-bottom: 1px solid #001a00; text-transform: uppercase;
+      letter-spacing: 4px; color: #888888;
+      border-bottom: 1px solid #e8e8e8;
+      text-transform: uppercase; background: #f5f5f0;
     }
     .rcp-input {
       display: block; width: 100%;
-      background: #000; color: #00ff41;
-      border: none; border-bottom: 1px solid #003300;
+      background: #ffffff; color: #111111;
+      border: none; border-bottom: 1px solid #e0e0e0;
       font-family: "Courier New", Courier, monospace;
-      font-size: 0.85em; padding: 11px 14px;
+      font-size: 0.88em; padding: 12px 14px;
       outline: none; -webkit-appearance: none;
     }
-    .rcp-input:focus { border-bottom-color: #00ff41; background: #010e01; }
+    .rcp-input:focus { border-bottom-color: #1a1a1a; background: #fafafa; }
 
     /* Fila de ingrediente en el editor */
     .rcp-ing-row {
-      display: table; width: 100%; border-bottom: 1px solid #001100;
+      display: table; width: 100%; border-bottom: 1px solid #eeeeee;
+      background: #ffffff;
     }
     .rcp-ing-qty-cell  { display: table-cell; width: 90px; }
     .rcp-ing-name-cell { display: table-cell; }
@@ -439,57 +446,58 @@
 
     /* Fila de paso en el editor */
     .rcp-step-row-edit {
-      display: table; width: 100%; border-bottom: 1px solid #001100;
+      display: table; width: 100%; border-bottom: 1px solid #eeeeee;
+      background: #ffffff;
     }
     .rcp-step-num-cell  { display: table-cell; width: 30px; vertical-align: middle;
-                          text-align: center; color: #005500; font-size: 0.72em; }
+                          text-align: center; color: #aaaaaa; font-size: 0.72em; }
     .rcp-step-text-cell { display: table-cell; }
     .rcp-del-btn {
-      background: transparent; color: #ff4141; border: none;
+      background: transparent; color: #cc2222; border: none;
       font-size: 1.1em; padding: 8px 4px; cursor: pointer;
       min-height: 44px; min-width: 36px; line-height: 1;
       font-family: "Courier New", Courier, monospace; -webkit-appearance: none;
     }
     .rcp-add-btn {
       display: block; width: 100%; padding: 12px 14px;
-      background: transparent; color: #005500;
-      border: none; border-bottom: 1px solid #001a00;
+      background: #f5f5f0; color: #888888;
+      border: none; border-bottom: 1px solid #e8e8e8;
       font-family: "Courier New", Courier, monospace;
       font-size: 0.78em; letter-spacing: 2px; text-align: left;
       cursor: pointer; -webkit-appearance: none;
     }
-    .rcp-add-btn:active { background: #001500; color: #00ff41; }
+    .rcp-add-btn:active { background: #e8e8e4; color: #111111; }
     .rcp-textarea {
-      display: block; width: 100%; background: #000;
-      color: #00aa22; border: none;
+      display: block; width: 100%; background: #ffffff;
+      color: #555555; border: none;
       font-family: "Courier New", Courier, monospace;
-      font-size: 0.82em; padding: 12px 14px; line-height: 1.7;
-      outline: none; resize: none; min-height: 90px; -webkit-appearance: none;
+      font-size: 0.85em; padding: 14px; line-height: 1.8;
+      outline: none; resize: none; min-height: 100px; -webkit-appearance: none;
     }
-    .rcp-textarea:focus { background: #010e01; }
+    .rcp-textarea:focus { background: #fafafa; }
     .rcp-action-bar {
-      padding: 10px 14px; border-top: 1px solid #003300; background: #0a0a0a;
+      padding: 12px 14px; border-top: 1px solid #e0e0e0; background: #f5f5f0;
     }
     .rcp-btn {
       font-family: "Courier New", Courier, monospace;
-      background: transparent; color: #00ff41; border: 1px solid #00ff41;
-      padding: 7px 14px; font-size: 0.75em; letter-spacing: 2px;
+      background: transparent; color: #333333; border: 1px solid #cccccc;
+      padding: 8px 16px; font-size: 0.75em; letter-spacing: 2px;
       cursor: pointer; outline: none; -webkit-appearance: none;
       margin-right: 8px; min-height: 36px;
     }
-    .rcp-btn:active { background: #00ff41; color: #0a0a0a; }
-    .rcp-btn.danger { color: #ff4141; border-color: #ff4141; }
-    .rcp-btn.danger:active { background: #ff4141; color: #0a0a0a; }
+    .rcp-btn:active { background: #1a1a1a; color: #ffffff; border-color: #1a1a1a; }
+    .rcp-btn.danger { color: #cc2222; border-color: #cc2222; }
+    .rcp-btn.danger:active { background: #cc2222; color: #ffffff; }
 
     /* ── FOOTER ──────────────────────────────── */
     #lmd-footer {
       position: absolute; bottom: 0; left: 0; right: 0;
-      background: #0a0a0a; border-top: 1px solid #002200;
+      background: #1a1a1a; border-top: 1px solid #333333;
       padding: 6px 14px; font-size: 0.62em;
-      color: #004400; letter-spacing: 2px;
+      color: #666666; letter-spacing: 2px;
     }
 
-    #footer-count { color: #007700; }
+    #footer-count { color: #999999; }
 
   </style>
 </head>
